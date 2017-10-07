@@ -1,0 +1,10 @@
+<resources>
+
+    <!--Used throughout this app-->
+    <string name="app_name">Pop Movies</string>
+
+    <!-- Used in Action Bar -->
+    <string name="action_sort_popular">Most Popular</string>
+    <string name="action_sort_toprated">Top Rated</string>
+
+</resources>
