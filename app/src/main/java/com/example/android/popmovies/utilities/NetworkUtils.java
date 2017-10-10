@@ -35,23 +35,16 @@ public final class NetworkUtils {
     private static final String STATIC_IMAGELOAD_URL =
             "https://api.themoviedb.org/3/movie/";
 
-    private static final String FORECAST_BASE_URL = STATIC_IMAGELOAD_URL;
+    private static final String BASE_URL = STATIC_IMAGELOAD_URL;
 
-    /*
-     * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
-     * server. They are simply here to allow us to teach you how to build a URL if you were to use
-     * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
-     * we are not going to show you how to do so in this course.
-     */
 
     /* The format we want our API to return */
     private static final String format = "json";
     /* The units we want our API to return */
     private static final String units = "metric";
 
-    //    Query String
-    final static String KEY = "13a909a18259e3653d6885c366f6b369";
-    final static String PARAM_KEY = "api_key";
+    final static String API_PARAM = "api_key";
+
 
     /**
      * Builds the URL used to talk to the weather server using a location. This location is based
@@ -60,9 +53,9 @@ public final class NetworkUtils {
      * @param movie_id The movie_id that will be queried for.
      * @return The URL to use to query the movies info server.
      */
-    public static URL buildUrl(int movie_id, String order) {
-        Uri builtUri = Uri.parse(FORECAST_BASE_URL+movie_id+"/"+order).buildUpon()
-                .appendQueryParameter(KEY, PARAM_KEY)
+    public static URL buildUrl(String apk_key, String order) {
+        Uri builtUri = Uri.parse(BASE_URL + order).buildUpon()
+                .appendQueryParameter(API_PARAM, apk_key)
                 .build();
 
         URL url = null;
@@ -71,7 +64,6 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         Log.v(TAG, "Built URI " + url);
 
         return url;
