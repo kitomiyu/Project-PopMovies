@@ -1,14 +1,18 @@
 package com.example.android.popmovies;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,11 +77,24 @@ public class MainActivityFragment extends Fragment {
         //Initialize with empty data
         gridView.setAdapter(imagesAdapter);
 
+        //When grid item is clicked
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                //Get item at position
+                HashMap<String, String> currentData;
+                currentData = moviesInfo.get(position);
+                Log.v(TAG, "currentMovieData: " + currentData.toString());
+
+                Intent intent = new Intent(getContext(), DetailsActivity.class);
+                intent.putExtra("currentMovieData", currentData);
+                //Start details activity
+                startActivity(intent);
+            }
+        });
+
         //Calling the AsyncTask class to start to execute.
         new FetchLoadingTask().execute(sortBy_upcoming);
-
         return rootView;
-
     }
 
 
@@ -88,7 +105,6 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
 //        Start loading images on background
@@ -122,16 +138,20 @@ public class MainActivityFragment extends Fragment {
                     JSONObject r = resultDetail.getJSONObject(i);
 
                     String id = r.getString("id");
-                    String title = r.getString("title");
-                    String popularity = r.getString("popularity");
+                    String original_title = r.getString("original_title");
+                    String vote_average = r.getString("vote_average");
+                    String overview = r.getString("overview");
                     String poster_path = r.getString("poster_path");
+                    String release_date = r.getString("release_date");
                     String imageUrl = "http://image.tmdb.org/t/p/w185/" + poster_path;
 
                     HashMap<String, String> movieInfo = new HashMap<>();
                     // adding each child node to HashMap key => value
                     movieInfo.put("id", id);
-                    movieInfo.put("title", title);
-                    movieInfo.put("popularity", popularity);
+                    movieInfo.put("original_title", original_title);
+                    movieInfo.put("vote_average", vote_average);
+                    movieInfo.put("overview", overview);
+                    movieInfo.put("release_date", release_date);
                     movieInfo.put("imageUrl", imageUrl);
 
                     // adding contact to movieInfo list
