@@ -7,4 +7,6 @@
     <string name="action_sort_popular">Most Popular</string>
     <string name="action_sort_toprated">Top Rated</string>
 
+    <string name="error_msg_loading">Error in loading. Try again</string>
+
 </resources>
