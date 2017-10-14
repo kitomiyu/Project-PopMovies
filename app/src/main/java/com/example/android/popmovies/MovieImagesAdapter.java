@@ -44,7 +44,6 @@ public class MovieImagesAdapter extends ArrayAdapter<HashMap<String, String>> {
      */
     public void setGridData(ArrayList<HashMap<String, String>> mGridData) {
         this.mGridData = mGridData;
-        Log.v(TAG, mGridData.get(0).get("imageUrl"));
         notifyDataSetChanged();
     }
 
@@ -53,7 +52,6 @@ public class MovieImagesAdapter extends ArrayAdapter<HashMap<String, String>> {
 
         HashMap<String, String> currentData;
         currentData = mGridData.get(position);
-        Log.v(TAG, currentData.toString());
 
         // Adapters recycle views to AdapterViews.
         // If this is a new View object we're getting, then inflate the layout.
