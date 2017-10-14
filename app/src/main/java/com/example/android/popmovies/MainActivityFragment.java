@@ -1,10 +1,15 @@
 package com.example.android.popmovies;
 
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,11 +41,9 @@ public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
-
     private GridView gridView;
-    private ProgressBar mLoadingIndicator;
-    private MovieImagesAdapter imagesAdapter;
-    private ArrayList<HashMap<String, String>> moviesInfo;
+    private static MovieImagesAdapter imagesAdapter;
+    private static Context mContext;
 
     /**
      * ArrayList to store
@@ -50,14 +53,13 @@ public class MainActivityFragment extends Fragment {
      * user rating (called vote_average in the api)
      * release date
      */
+    private static ArrayList<HashMap<String, String>> moviesInfo;
 
     /**
      * Set variables
      */
-    private String API_KEY = "13a909a18259e3653d6885c366f6b369";
     private String sortBy_upcoming = "upcoming";
-    private String sortBy_popular = "popular";
-    private String sortBy_top_rated = "top_rated";
+
 
     public MainActivityFragment() {
         // Required empty public constructor
@@ -99,15 +101,16 @@ public class MainActivityFragment extends Fragment {
 
 
     // AsyncTask<Params, Progress, Result>
-    public class FetchLoadingTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>>{
+    public static class FetchLoadingTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>>{
 
-//        Show progress bar
+        private String API_KEY = "13a909a18259e3653d6885c366f6b369";
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
-//        Start loading images on background
+        //        Start loading images on background
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(String... params) {
 
@@ -119,6 +122,10 @@ public class MainActivityFragment extends Fragment {
             String sortOrder = params[0];
             URL requestUrl = NetworkUtils.buildUrl(API_KEY, sortOrder);
 
+            // clear the data of ArrayList
+            if (moviesInfo != null){
+                moviesInfo.clear();
+            }
 
             try {
                 String jsonResponse = NetworkUtils
@@ -178,7 +185,7 @@ public class MainActivityFragment extends Fragment {
                 imagesAdapter.setGridData(hashMaps);
 
             }else {
-                Toast.makeText(getContext(), R.string.error_msg_loading, Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, R.string.error_msg_loading, Toast.LENGTH_SHORT);
             }
         }
     }
