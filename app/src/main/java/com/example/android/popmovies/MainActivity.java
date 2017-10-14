@@ -9,6 +9,8 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private String sortBy_popular = "popular";
+    private String sortBy_top_rated = "top_rated";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,13 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_toprated) {
             Log.v(TAG, "sort_toprated item is tapped");
+            new MainActivityFragment.FetchLoadingTask().execute(sortBy_top_rated);
             return true;
         }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_popular) {
             Log.v(TAG, "popular item is tapped");
+            new MainActivityFragment.FetchLoadingTask().execute(sortBy_popular);
             return true;
         }
         return super.onOptionsItemSelected(item);
