@@ -6,7 +6,22 @@
     <!-- Used in Action Bar -->
     <string name="action_sort_popular">Most Popular</string>
     <string name="action_sort_toprated">Top Rated</string>
+    <string name="action_sort_upcoming">Upcoming</string>
+
+    <!--Used to define sort order-->
+    <string name="sort_order_upcoming">upcoming</string>
+    <string name="sort_order_popular">popular</string>
+    <string name="sort_order_topRated">top_rated</string>
 
     <string name="movieImage">movie poster image thumbnail</string>
+
+    <!--Used to store movie data-->
+    <string name="id">id</string>
+    <string name="original_title">original_title</string>
+    <string name="vote_average">vote_average</string>
+    <string name="overview">overview</string>
+    <string name="poster_path">poster_path</string>
+    <string name="release_date">release_date</string>
+    <string name="base_url">http://image.tmdb.org/t/p/w185/</string>
 
 </resources>
