@@ -54,12 +54,10 @@ public class MainActivityFragment extends Fragment {
      * release date
      */
     private static ArrayList<HashMap<String, String>> moviesInfo;
-
     /**
      * Set variables
      */
     private String sortBy_upcoming = "upcoming";
-
 
     public MainActivityFragment() {
         // Required empty public constructor
@@ -69,33 +67,34 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //Initialize with empty data
-        moviesInfo = new ArrayList<>();
-        imagesAdapter = new MovieImagesAdapter(getActivity(), moviesInfo);
+        // Initialization and load images to show it in GridView
+        if (moviesInfo == null){
+            moviesInfo = new ArrayList<>();
+            imagesAdapter = new MovieImagesAdapter(getActivity(), moviesInfo);
+            //Calling the AsyncTask class to start to execute.
+            new FetchLoadingTask().execute(sortBy_upcoming);
+        }
+
         // Get a reference to the ListView, and attach this adapter to it.
         gridView = rootView.findViewById(R.id.image_grid);
-        //Initialize with empty data
         gridView.setAdapter(imagesAdapter);
 
         //When grid item is clicked
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                //Get item at position
                 HashMap<String, String> currentData;
+                //Get item at position
                 currentData = moviesInfo.get(position);
-                Log.v(TAG, "currentMovieData: " + currentData.toString());
 
-                Intent intent = new Intent(getContext(), DetailsActivity.class);
+                //Pass the data to new activity "DetailsActivity"
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra("currentMovieData", currentData);
                 //Start details activity
                 startActivity(intent);
             }
         });
-
-        //Calling the AsyncTask class to start to execute.
-        new FetchLoadingTask().execute(sortBy_upcoming);
         return rootView;
     }
 
@@ -120,6 +119,8 @@ public class MainActivityFragment extends Fragment {
             }
 
             String sortOrder = params[0];
+
+            //build URL
             URL requestUrl = NetworkUtils.buildUrl(API_KEY, sortOrder);
 
             // clear the data of ArrayList
@@ -128,12 +129,12 @@ public class MainActivityFragment extends Fragment {
             }
 
             try {
+                //Store JsonResponse
                 String jsonResponse = NetworkUtils
                         .getResponseFromHttpUrl(requestUrl);
 
                 Log.v(TAG, "jsonResponse: " + jsonResponse);
 
-                // Get Base_URL
                 JSONObject getMovieInfo = new JSONObject(jsonResponse);
                 JSONArray resultDetail = getMovieInfo.getJSONArray("results");
 
@@ -165,7 +166,7 @@ public class MainActivityFragment extends Fragment {
                     moviesInfo.add(movieInfo);
 
                 }
-                Log.v(TAG, "MoviesInfo: "+ moviesInfo.toString());
+//                Log.v(TAG, "MoviesInfo: "+ moviesInfo.toString());
                 return moviesInfo;
             } catch (Exception e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -181,7 +182,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(ArrayList<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
             if (hashMaps != null && !hashMaps.equals("")) {
-                Log.v(TAG, "onPost is executed" + hashMaps.toString());
+//                Log.v(TAG, "onPost is executed" + hashMaps.toString());
                 imagesAdapter.setGridData(hashMaps);
 
             }else {
