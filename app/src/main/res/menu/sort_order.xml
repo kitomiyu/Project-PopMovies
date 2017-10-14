@@ -14,5 +14,10 @@
         android:title="@string/action_sort_toprated"
         android:orderInCategory="2"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sort_upcoming"
+        android:title="@string/action_sort_upcoming"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
 
 </menu>

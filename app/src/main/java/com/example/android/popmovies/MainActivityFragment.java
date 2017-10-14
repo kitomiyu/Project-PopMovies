@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
 import com.example.android.popmovies.utilities.NetworkUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -37,10 +39,6 @@ public class MainActivityFragment extends Fragment {
      * release date
      */
     private static ArrayList<HashMap<String, String>> moviesInfo;
-    /**
-     * Set variables
-     */
-    String sortBy_upcoming = "upcoming";
 
     public MainActivityFragment() {
         // Required empty public constructor
@@ -53,11 +51,11 @@ public class MainActivityFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Initialization and load images to show it in GridView
-        if (moviesInfo == null){
+        if (moviesInfo == null) {
             moviesInfo = new ArrayList<>();
             imagesAdapter = new MovieImagesAdapter(getActivity(), moviesInfo);
             //Calling the AsyncTask class to start to execute.
-            new FetchLoadingTask().execute(sortBy_upcoming);
+            new FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
         }
 
         // Get a reference to the ListView, and attach this adapter to it.
@@ -83,7 +81,7 @@ public class MainActivityFragment extends Fragment {
 
 
     // AsyncTask<Params, Progress, Result>
-    public static class FetchLoadingTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>>{
+    public static class FetchLoadingTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         private String API_KEY = "";
 
@@ -107,7 +105,7 @@ public class MainActivityFragment extends Fragment {
             URL requestUrl = NetworkUtils.buildUrl(API_KEY, sortOrder);
 
             // clear the data of ArrayList
-            if (moviesInfo != null){
+            if (moviesInfo != null) {
                 moviesInfo.clear();
             }
 
@@ -159,15 +157,12 @@ public class MainActivityFragment extends Fragment {
         }
 
         // Post the loading data
-
-
         @Override
         protected void onPostExecute(ArrayList<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
             if (hashMaps != null) {
 //                Log.v(TAG, "onPost is executed" + hashMaps.toString());
                 imagesAdapter.setGridData(hashMaps);
-
             }
         }
     }

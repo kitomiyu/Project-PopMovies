@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created by toda on 2017/10/11.
  */
 
-public class DetailsActivity extends AppCompatActivity{
+public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
@@ -70,7 +70,7 @@ public class DetailsActivity extends AppCompatActivity{
 
             mRating = currentMovieData.get("vote_average");
             mMovieRating.setNumStars(10);
-            mMovieRating.setStepSize((float)0.2);
+            mMovieRating.setStepSize((float) 0.2);
             mMovieRating.setRating(Float.valueOf(mRating));
             mRatingNumber.setText(mRating);
 
