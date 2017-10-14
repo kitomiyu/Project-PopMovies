@@ -41,7 +41,7 @@ public class MainActivityFragment extends Fragment {
     private static ArrayList<HashMap<String, String>> moviesInfo;
 
     public MainActivityFragment() {
-        // Required empty public constructor
+        //empty public constructor
     }
 
     @Override
@@ -94,7 +94,6 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(String... params) {
 
-            /* If there's no zip code, there's nothing to look up. */
             if (params.length == 0) {
                 return null;
             }
@@ -104,7 +103,7 @@ public class MainActivityFragment extends Fragment {
             //build URL
             URL requestUrl = NetworkUtils.buildUrl(API_KEY, sortOrder);
 
-            // clear the data of ArrayList
+            // clear the data of ArrayList if it's not empty
             if (moviesInfo != null) {
                 moviesInfo.clear();
             }
@@ -116,6 +115,7 @@ public class MainActivityFragment extends Fragment {
 
                 Log.v(TAG, "jsonResponse: " + jsonResponse);
 
+                //Find items in "Result"
                 JSONObject getMovieInfo = new JSONObject(jsonResponse);
                 JSONArray resultDetail = getMovieInfo.getJSONArray("results");
 

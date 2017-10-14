@@ -25,24 +25,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //acton when top rated item is selected
         if (id == R.id.action_sort_toprated) {
             Log.v(TAG, "sort_toprated item is tapped");
             new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_topRated));
             return true;
         }
-        //noinspection SimplifiableIfStatement
+        //acton when popular item is selected
         if (id == R.id.action_sort_popular) {
             Log.v(TAG, "sort_popular item is tapped");
             new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_popular));
             return true;
         }
-        //noinspection SimplifiableIfStatement
+        //acton when upcoming item is selected
         if (id == R.id.action_sort_upcoming) {
             Log.v(TAG, "upcoming item is tapped");
             new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
