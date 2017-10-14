@@ -1,10 +1,7 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +21,7 @@ public class DetailsActivity extends AppCompatActivity{
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
+    // Set variables
     Context mContext;
     TextView mMovieTitle;
     TextView mMovieReleaseDate;
@@ -37,10 +35,11 @@ public class DetailsActivity extends AppCompatActivity{
     String mTitle;
     String mOverview;
     String mRating;
-    private HashMap<String, String> currentMovieData;
+    HashMap<String, String> currentMovieData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 

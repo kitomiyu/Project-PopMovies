@@ -9,8 +9,8 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private String sortBy_popular = "popular";
-    private String sortBy_top_rated = "top_rated";
+    String sortBy_popular = "popular";
+    String sortBy_top_rated = "top_rated";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

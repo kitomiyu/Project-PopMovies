@@ -47,10 +47,7 @@ public final class NetworkUtils {
 
 
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
-     * on the query capabilities of the weather provider that we are using.
-     *
-     * @param movie_id The movie_id that will be queried for.
+     * Builds the URL used to get image data from server using a api_key and order.
      * @return The URL to use to query the movies info server.
      */
     public static URL buildUrl(String apk_key, String order) {
@@ -67,19 +64,6 @@ public final class NetworkUtils {
         Log.v(TAG, "Built URI " + url);
 
         return url;
-    }
-
-    /**
-     * Builds the URL used to talk to the weather server using latitude and longitude of a
-     * location.
-     *
-     * @param lat The latitude of the location
-     * @param lon The longitude of the location
-     * @return The Url to use to query the weather server.
-     */
-    public static URL buildUrl(Double lat, Double lon) {
-        /** This will be implemented in a future lesson **/
-        return null;
     }
 
     /**

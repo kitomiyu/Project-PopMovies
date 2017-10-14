@@ -1,38 +1,22 @@
 package com.example.android.popmovies;
 
-
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.android.popmovies.utilities.NetworkUtils;
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,9 +25,8 @@ public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
-    private GridView gridView;
+    GridView gridView;
     private static MovieImagesAdapter imagesAdapter;
-    private static Context mContext;
 
     /**
      * ArrayList to store
@@ -57,7 +40,7 @@ public class MainActivityFragment extends Fragment {
     /**
      * Set variables
      */
-    private String sortBy_upcoming = "upcoming";
+    String sortBy_upcoming = "upcoming";
 
     public MainActivityFragment() {
         // Required empty public constructor
@@ -102,7 +85,7 @@ public class MainActivityFragment extends Fragment {
     // AsyncTask<Params, Progress, Result>
     public static class FetchLoadingTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>>{
 
-        private String API_KEY = "13a909a18259e3653d6885c366f6b369";
+        private String API_KEY = "";
 
         @Override
         protected void onPreExecute() {
@@ -181,12 +164,10 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
-            if (hashMaps != null && !hashMaps.equals("")) {
+            if (hashMaps != null) {
 //                Log.v(TAG, "onPost is executed" + hashMaps.toString());
                 imagesAdapter.setGridData(hashMaps);
 
-            }else {
-                Toast.makeText(mContext, R.string.error_msg_loading, Toast.LENGTH_SHORT);
             }
         }
     }

@@ -39,8 +39,6 @@ public class MovieImagesAdapter extends ArrayAdapter<HashMap<String, String>> {
 
     /**
      * Updates grid data and refresh grid items.
-     *
-     * @param mGridData
      */
     public void setGridData(ArrayList<HashMap<String, String>> mGridData) {
         this.mGridData = mGridData;
