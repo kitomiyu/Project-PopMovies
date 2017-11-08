@@ -1,5 +1,6 @@
 package com.example.android.popmovies;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,23 +29,21 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks
         int id = item.getItemId();
 
-        //acton when top rated item is selected
-        if (id == R.id.action_sort_toprated) {
-            Log.v(TAG, "sort_toprated item is tapped");
-            new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_topRated));
-            return true;
+        // When the home button is pressed, take the user back to the MainActivity
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
         }
-        //acton when popular item is selected
-        if (id == R.id.action_sort_popular) {
-            Log.v(TAG, "sort_popular item is tapped");
-            new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_popular));
-            return true;
-        }
-        //acton when upcoming item is selected
-        if (id == R.id.action_sort_upcoming) {
-            Log.v(TAG, "upcoming item is tapped");
-            new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
-            return true;
+
+        switch (id) {
+            case R.id.action_sort_toprated:
+                new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_topRated));
+                return true;
+            case R.id.action_sort_popular:
+                new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_popular));
+                return true;
+            case R.id.action_sort_upcoming:
+                new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

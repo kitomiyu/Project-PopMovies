@@ -51,9 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
         mRatingNumber = (TextView) findViewById(R.id.mv_rating);
 
 
-        currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra("currentMovieData");
-        Log.v(TAG, currentMovieData.get("original_title"));
-
+        currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
         if (currentMovieData != null) {
             mTitle = currentMovieData.get("original_title");
@@ -73,7 +71,6 @@ public class DetailsActivity extends AppCompatActivity {
             mMovieRating.setStepSize((float) 0.2);
             mMovieRating.setRating(Float.valueOf(mRating));
             mRatingNumber.setText(mRating);
-
         }
 
     }
