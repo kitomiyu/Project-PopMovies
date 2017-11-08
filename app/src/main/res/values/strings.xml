@@ -14,6 +14,7 @@
     <string name="sort_order_topRated">top_rated</string>
 
     <string name="movieImage">movie poster image thumbnail</string>
+    <string name="currentMovieData">CurrentMovieData</string>
 
     <!--Used to store movie data-->
     <string name="id">id</string>

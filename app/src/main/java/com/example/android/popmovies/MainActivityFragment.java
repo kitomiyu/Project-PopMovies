@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment{
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
 
@@ -71,7 +72,7 @@ public class MainActivityFragment extends Fragment {
 
                 //Pass the data to new activity "DetailsActivity"
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra("currentMovieData", currentData);
+                intent.putExtra(getString(R.string.currentMovieData), currentData);
                 //Start details activity
                 startActivity(intent);
             }

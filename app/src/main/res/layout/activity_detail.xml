@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:textSize="22sp" />
+
         <TextView
             android:id="@+id/mv_releaseDate"
             android:layout_width="match_parent"
