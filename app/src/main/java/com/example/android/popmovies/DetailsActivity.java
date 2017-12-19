@@ -1,10 +1,13 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -29,12 +32,14 @@ public class DetailsActivity extends AppCompatActivity {
     TextView mMovieOverview;
     RatingBar mMovieRating;
     TextView mRatingNumber;
+    Button mTrailers;
 
     String mReleaseDate;
     String mImage;
     String mTitle;
     String mOverview;
     String mRating;
+    String mId;
     HashMap<String, String> currentMovieData;
 
     @Override
@@ -42,6 +47,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Log.v(TAG, "onCreate is called");
 
         mMovieTitle = (TextView) findViewById(R.id.mv_display_title);
         mMovieReleaseDate = (TextView) findViewById(R.id.mv_releaseDate);
@@ -49,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
         mMovieOverview = (TextView) findViewById(R.id.mv_overview);
         mMovieRating = (RatingBar) findViewById(R.id.ratingBar);
         mRatingNumber = (TextView) findViewById(R.id.mv_rating);
-
+        mTrailers = (Button) findViewById(R.id.action_trailers);
 
         currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
@@ -72,6 +78,18 @@ public class DetailsActivity extends AppCompatActivity {
             mMovieRating.setRating(Float.valueOf(mRating));
             mRatingNumber.setText(mRating);
         }
+
+//        When user click button to show trailers, open new activity
+        mTrailers.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Pass the data to new activity "TrailersActivity"
+                Intent intent = new Intent(DetailsActivity.this, TrailersActivity.class);
+                //Start details activity
+                startActivity(intent);
+            }
+        });
 
     }
 }
