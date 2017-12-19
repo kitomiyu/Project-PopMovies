@@ -8,6 +8,9 @@
     <string name="action_sort_toprated">Top Rated</string>
     <string name="action_sort_upcoming">Upcoming</string>
 
+    <!--Used in layout-->
+    <string name="button_trailers">Trailers</string>
+
     <!--Used to define sort order-->
     <string name="sort_order_upcoming">upcoming</string>
     <string name="sort_order_popular">popular</string>
@@ -15,6 +18,9 @@
 
     <string name="movieImage">movie poster image thumbnail</string>
     <string name="currentMovieData">CurrentMovieData</string>
+
+    <!--Used to get movie data-->
+    <string name="base_url_detail">https://api.themoviedb.org/3/movie/</string>
 
     <!--Used to store movie data-->
     <string name="id">id</string>
