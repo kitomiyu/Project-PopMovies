@@ -1,37 +1,81 @@
 package com.example.android.popmovies;
 
+import android.app.LoaderManager;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by toda on 2017/12/18.
  */
 
-public class TrailersActivity extends AppCompatActivity{
+public class TrailersActivity extends AppCompatActivity implements TrailersAdapter.ListItemClickListener{
 
     private static final String TAG = TrailersActivity.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
+    private TrailersAdapter mAdapter;
+    private RecyclerView mNumbersList;
+    private static final int NUM_LIST_ITEMS = 20;
+    String mId;
 
+    private Toast mToast;
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.trailers_list);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_trailers);
-        int recyclerViewOrientation = LinearLayoutManager.VERTICAL;
 
-        boolean shouldReverseLayout = false;
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, recyclerViewOrientation, shouldReverseLayout);
-        mRecyclerView.setLayoutManager(layoutManager);
+        if (savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if (extras == null){
+                mId = null;
+            } else {
+                mId = extras.getString("id");
+                Log.v(TAG, "id is set to get trailers:" + mId);
+            }
+        }
 
-        mRecyclerView.setHasFixedSize(true);
+        mNumbersList = (RecyclerView) findViewById(R.id.recyclerview_trailers);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mNumbersList.setLayoutManager(layoutManager);
+
+        mNumbersList.setHasFixedSize(true);
+
+        mAdapter = new TrailersAdapter(NUM_LIST_ITEMS, this);
+        mNumbersList.setAdapter(mAdapter);
+
+        loadMovieData();
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        String toastMessage = "Item #" + clickedItemIndex + " clicked.";
+        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
+
+        mToast.show();
+    }
+
+    private void loadMovieData() {
 
     }
+
+
 }
