@@ -60,6 +60,27 @@ public class DetailsActivity extends AppCompatActivity {
 
         currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
+
+//        When user click button to show trailers, open new activity
+        mTrailers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Pass the data to new activity "TrailersActivity"
+                Intent intent = new Intent(DetailsActivity.this, TrailersActivity.class);
+                intent.putExtra("mv_id", currentMovieData.get("id"));
+                Log.v(TAG, "putExtra data to TrailersActvity: " + currentMovieData.get("id"));
+                //Start details activity
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         if (currentMovieData != null) {
             mTitle = currentMovieData.get("original_title");
             mMovieTitle.setText(mTitle);
@@ -81,21 +102,5 @@ public class DetailsActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "currentMOvieData is null!", Toast.LENGTH_LONG).show();
         }
-
-//        When user click button to show trailers, open new activity
-        mTrailers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //Pass the data to new activity "TrailersActivity"
-                Intent intent = new Intent(DetailsActivity.this, TrailersActivity.class);
-                intent.putExtra("mv_id", currentMovieData.get("id"));
-                Log.v(TAG, "putExtra data to TrailersActvity: " + currentMovieData.get("id"));
-                //Start details activity
-                startActivity(intent);
-            }
-        });
-
     }
-
 }
