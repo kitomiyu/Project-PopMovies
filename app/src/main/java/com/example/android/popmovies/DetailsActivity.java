@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -77,19 +78,24 @@ public class DetailsActivity extends AppCompatActivity {
             mMovieRating.setStepSize((float) 0.2);
             mMovieRating.setRating(Float.valueOf(mRating));
             mRatingNumber.setText(mRating);
+        }else{
+            Toast.makeText(this, "currentMOvieData is null!", Toast.LENGTH_LONG).show();
         }
 
 //        When user click button to show trailers, open new activity
-        mTrailers.setOnClickListener(new View.OnClickListener(){
+        mTrailers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //Pass the data to new activity "TrailersActivity"
                 Intent intent = new Intent(DetailsActivity.this, TrailersActivity.class);
+                intent.putExtra("mv_id", currentMovieData.get("id"));
+                Log.v(TAG, "putExtra data to TrailersActvity: " + currentMovieData.get("id"));
                 //Start details activity
                 startActivity(intent);
             }
         });
 
     }
+
 }
