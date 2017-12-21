@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by toda on 2017/12/20.
  */
@@ -19,69 +22,29 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     private static final String TAG = TrailersAdapter.class.getSimpleName();
 
     final private ListItemClickListener mOnClickListener;
-
-    /*
-     * The number of ViewHolders that have been created. Typically, you can figure out how many
-     * there should be by determining how many list items fit on your screen at once and add 2 to 4
-     * to that number. That isn't the exact formula, but will give you an idea of how many
-     * ViewHolders have been created to display any given RecyclerView.
-     *
-     * Here's some ASCII art to hopefully help you understand:
-     *
-     *    ViewHolders on screen:
-     *
-     *        *-----------------------------*
-     *        |         ViewHolder index: 0 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 1 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 2 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 3 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 4 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 5 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 6 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 7 |
-     *        *-----------------------------*
-     *
-     *    Extra ViewHolders (off screen)
-     *
-     *        *-----------------------------*
-     *        |         ViewHolder index: 8 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 9 |
-     *        *-----------------------------*
-     *        |         ViewHolder index: 10|
-     *        *-----------------------------*
-     *        |         ViewHolder index: 11|
-     *        *-----------------------------*
-     *
-     *    Total number of ViewHolders = 11
-     */
     private static int viewHolderCount;
-
     private int mNumberItems;
+    private ArrayList<HashMap<String, String>> mTrailersData;
+    private HashMap<String, String> currentData;
 
     // COMPLETED (1) Add an interface called ListItemClickListener
     // COMPLETED (2) Within that interface, define a void method called onListItemClick that takes an int as a parameter
+
     /**
      * The interface that receives onClick messages.
      */
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListItemClick(String mv_url);
     }
 
     // COMPLETED (4) Add a ListItemClickListener as a parameter to the constructor and store it in mOnClickListener
+
     /**
      * Constructor for GreenAdapter that accepts a number of items to display and the specification
      * for the ListItemClickListener.
      *
      * @param numberOfItems Number of items to display in list
-     * @param listener Listener for list item clicks
+     * @param listener      Listener for list item clicks
      */
     public TrailersAdapter(int numberOfItems, ListItemClickListener listener) {
         mNumberItems = numberOfItems;
@@ -90,7 +53,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     }
 
     /**
-     *
      * This gets called when each new ViewHolder is created. This happens when the RecyclerView
      * is laid out. Enough ViewHolders will be created to fill the screen and allow for scrolling.
      *
@@ -109,9 +71,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        NumberViewHolder viewHolder = new NumberViewHolder(view);
 
-        viewHolder.viewHolderIndex.setText("ViewHolder index: " + viewHolderCount);
+        NumberViewHolder viewHolder = new NumberViewHolder(view);
 
         viewHolderCount++;
         Log.d(TAG, "onCreateViewHolder: number of ViewHolders created: "
@@ -131,8 +92,11 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      */
     @Override
     public void onBindViewHolder(NumberViewHolder holder, int position) {
-        Log.d(TAG, "#" + position);
-        holder.bind(position);
+        Log.v(TAG, "onBindViewHOlder is called");
+
+        currentData = mTrailersData.get(position);
+        String trailerName = currentData.get("trailer");
+        holder.listItemNumberView.setText(trailerName);
     }
 
     /**
@@ -147,6 +111,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     }
 
     // COMPLETED (5) Implement OnClickListener in the NumberViewHolder class
+
     /**
      * Cache of the children views for a list item.
      */
@@ -155,37 +120,32 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
 
         // Will display the position in the list, ie 0 through getItemCount() - 1
         TextView listItemNumberView;
-        // Will display which ViewHolder is displaying this data
-        TextView viewHolderIndex;
 
         public NumberViewHolder(View itemView) {
             super(itemView);
 
             listItemNumberView = (TextView) itemView.findViewById(R.id.recyclerview_trailer_name);
-            viewHolderIndex = (TextView) itemView.findViewById(R.id.tv_view_holder_instance);
-            // COMPLETED (7) Call setOnClickListener on the View passed into the constructor (use 'this' as the OnClickListener)
             itemView.setOnClickListener(this);
         }
 
-        /**
-         * A method we wrote for convenience. This method will take an integer as input and
-         * use that integer to display the appropriate text within a list item.
-         * @param listIndex Position of the item in the list
-         */
-        void bind(int listIndex) {
-            listItemNumberView.setText(String.valueOf(listIndex));
-        }
-
-
         // COMPLETED (6) Override onClick, passing the clicked item's position (getAdapterPosition()) to mOnClickListener via its onListItemClick method
+
         /**
          * Called whenever a user clicks on an item in the list.
+         *
          * @param v The View that was clicked
          */
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(clickedPosition);
+            currentData = mTrailersData.get(clickedPosition);
+            String mv_url = currentData.get("trailersUrl");
+            mOnClickListener.onListItemClick(mv_url);
         }
+    }
+
+    public void setTrailersData(ArrayList<HashMap<String, String>> mTrailerData) {
+        this.mTrailersData = mTrailerData;
+        notifyDataSetChanged();
     }
 }

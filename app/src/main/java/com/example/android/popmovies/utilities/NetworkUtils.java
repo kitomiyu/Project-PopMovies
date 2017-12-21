@@ -61,12 +61,12 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Log.v(TAG, "Built URI:" + url);
+        Log.v(TAG, "BuildUrl:" + url);
 
         return url;
     }
 
-    public static URL buildUrl_detail(String apk_key, int id, String request){
+    public static URL buildUrl_detail(String apk_key, String request, String id){
         Uri builtUri = Uri.parse(BASE_URL + id).buildUpon()
                 .appendPath(request)
                 .appendQueryParameter(API_PARAM, apk_key)
@@ -78,7 +78,7 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Log.v(TAG, "Built URI to get Detail movie data:" + url);
+        Log.v(TAG, "BuildUrlDetail:" + url);
 
         return url;
     }

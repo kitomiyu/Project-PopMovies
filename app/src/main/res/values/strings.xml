@@ -7,6 +7,8 @@
     <string name="action_sort_popular">Most Popular</string>
     <string name="action_sort_toprated">Top Rated</string>
     <string name="action_sort_upcoming">Upcoming</string>
+    <string name="action_get_trailers">videos</string>
+    <string name="action_get_reviews">reviews</string>
 
     <!--Used in layout-->
     <string name="button_trailers">Trailers</string>
