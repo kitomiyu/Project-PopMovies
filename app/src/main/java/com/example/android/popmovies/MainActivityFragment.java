@@ -168,4 +168,6 @@ public class MainActivityFragment extends Fragment {
             }
         }
     }
+
+    //FIX - Removed the AsyncTask from here and moved to TrailersActivity
 }

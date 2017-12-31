@@ -60,6 +60,24 @@ public class DetailsActivity extends AppCompatActivity {
 
         currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
+        //FIX: Removed this definition from onResume, as there was no such need anymore
+        mTitle = currentMovieData.get("original_title");
+        mMovieTitle.setText(mTitle);
+
+        mReleaseDate = currentMovieData.get("release_date");
+        mMovieReleaseDate.setText(mReleaseDate);
+
+        mImage = currentMovieData.get("imageUrl");
+        Picasso.with(mContext).load(mImage).into(mMovieImage);
+
+        mOverview = currentMovieData.get("overview");
+        mMovieOverview.setText(mOverview);
+
+        mRating = currentMovieData.get("vote_average");
+        mMovieRating.setNumStars(10);
+        mMovieRating.setStepSize((float) 0.2);
+        mMovieRating.setRating(Float.valueOf(mRating));
+        mRatingNumber.setText(mRating);
 
 //        When user click button to show trailers, open new activity
         mTrailers.setOnClickListener(new View.OnClickListener() {
@@ -74,32 +92,5 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (currentMovieData != null) {
-            mTitle = currentMovieData.get("original_title");
-            mMovieTitle.setText(mTitle);
-
-            mReleaseDate = currentMovieData.get("release_date");
-            mMovieReleaseDate.setText(mReleaseDate);
-
-            mImage = currentMovieData.get("imageUrl");
-            Picasso.with(mContext).load(mImage).into(mMovieImage);
-
-            mOverview = currentMovieData.get("overview");
-            mMovieOverview.setText(mOverview);
-
-            mRating = currentMovieData.get("vote_average");
-            mMovieRating.setNumStars(10);
-            mMovieRating.setStepSize((float) 0.2);
-            mMovieRating.setRating(Float.valueOf(mRating));
-            mRatingNumber.setText(mRating);
-        }else{
-            Toast.makeText(this, "currentMOvieData is null!", Toast.LENGTH_LONG).show();
-        }
     }
 }

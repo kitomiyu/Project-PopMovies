@@ -37,7 +37,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
     private static final String TAG = TrailersActivity.class.getSimpleName();
 
-    private TrailersAdapter mAdapter;
+    private static TrailersAdapter mAdapter;
     private RecyclerView mTrailersList;
     String mId;
     private static ArrayList<HashMap<String, String>> trailersInfo = new ArrayList<>();
@@ -67,7 +67,27 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         mTrailersList.setAdapter(mAdapter);
 
         loadMovieData();
+
+        //FIX: After removing the Parent activity definitions from Manifest,
+        // add this line to show an up arrow on the toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
+
+
+    //FIX: On clicking of back arrow, simply finish the activity.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return true;
+    }
+
 
     @Override
     public void onListItemClick(String TrailersUrl) {
@@ -83,7 +103,9 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     }
 
 
-    class FetchLoadingTaskDetail extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+    //FIX: Moving the Async Task here and referencing the correct adapter to load the trailers.
+    // The issue was with the AsyncTask refering to a wrong adapter.
+    private static class FetchLoadingTaskDetail extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         private String API_KEY = "";
 
