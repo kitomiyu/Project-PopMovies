@@ -44,6 +44,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      *
      * @param listener Listener for list item clicks
      */
+    //FIX: Removing the hardcoded size parameter and making it dependent on the size of the list passed.
     public TrailersAdapter(ListItemClickListener listener) {
         mOnClickListener = listener;
         viewHolderCount = 0;
@@ -93,7 +94,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         Log.v(TAG, "onBindViewHOlder is called");
 
         currentData = mTrailersData.get(position);
-        //Fix: Change key from trailer to "name"
+        //FIX: Change key from trailer to "name"
         String trailerName = currentData.get("name");
         holder.listItemNumberView.setText(trailerName);
     }
