@@ -23,7 +23,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
 
     final private ListItemClickListener mOnClickListener;
     private static int viewHolderCount;
-    private int mNumberItems;
     private ArrayList<HashMap<String, String>> mTrailersData;
     private HashMap<String, String> currentData;
 
@@ -43,13 +42,12 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      * Constructor for GreenAdapter that accepts a number of items to display and the specification
      * for the ListItemClickListener.
      *
-     * @param numberOfItems Number of items to display in list
-     * @param listener      Listener for list item clicks
+     * @param listener Listener for list item clicks
      */
-    public TrailersAdapter(int numberOfItems, ListItemClickListener listener) {
-        mNumberItems = numberOfItems;
+    public TrailersAdapter(ListItemClickListener listener) {
         mOnClickListener = listener;
         viewHolderCount = 0;
+        mTrailersData = new ArrayList<>();
     }
 
     /**
@@ -95,7 +93,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         Log.v(TAG, "onBindViewHOlder is called");
 
         currentData = mTrailersData.get(position);
-        String trailerName = currentData.get("trailer");
+        //Fix: Change key from trailer to "name"
+        String trailerName = currentData.get("name");
         holder.listItemNumberView.setText(trailerName);
     }
 
@@ -107,7 +106,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      */
     @Override
     public int getItemCount() {
-        return mNumberItems;
+        return mTrailersData.size();
     }
 
     // COMPLETED (5) Implement OnClickListener in the NumberViewHolder class
