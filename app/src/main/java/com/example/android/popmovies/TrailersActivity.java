@@ -88,10 +88,13 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         return true;
     }
 
-
+    //Allow users to view and play trailers in a web browser.
     @Override
     public void onListItemClick(String TrailersUrl) {
         Log.v(TAG, TrailersUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(TrailersUrl));
+        startActivity(intent);
     }
 
     private void loadMovieData() {
@@ -101,7 +104,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     private void showMovieDataView() {
         mTrailersList.setVisibility(View.VISIBLE);
     }
-
 
     //FIX: Moving the Async Task here and referencing the correct adapter to load the trailers.
     // The issue was with the AsyncTask refering to a wrong adapter.
@@ -186,5 +188,4 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
             }
         }
     }
-
 }

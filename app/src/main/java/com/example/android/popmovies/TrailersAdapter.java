@@ -36,8 +36,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         void onListItemClick(String mv_url);
     }
 
-    // COMPLETED (4) Add a ListItemClickListener as a parameter to the constructor and store it in mOnClickListener
-
     /**
      * Constructor for GreenAdapter that accepts a number of items to display and the specification
      * for the ListItemClickListener.
@@ -110,8 +108,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         return mTrailersData.size();
     }
 
-    // COMPLETED (5) Implement OnClickListener in the NumberViewHolder class
-
     /**
      * Cache of the children views for a list item.
      */
@@ -127,8 +123,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
             listItemNumberView = (TextView) itemView.findViewById(R.id.recyclerview_trailer_name);
             itemView.setOnClickListener(this);
         }
-
-        // COMPLETED (6) Override onClick, passing the clicked item's position (getAdapterPosition()) to mOnClickListener via its onListItemClick method
 
         /**
          * Called whenever a user clicks on an item in the list.
