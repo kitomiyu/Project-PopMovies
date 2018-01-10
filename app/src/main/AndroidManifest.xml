@@ -30,6 +30,7 @@
         </activity>
         <!--FIX : Removing Parent Activity Definitions-->
         <activity android:name=".TrailersActivity" />
+        <activity android:name=".ReviewsActivity"/>
     </application>
 
 </manifest>

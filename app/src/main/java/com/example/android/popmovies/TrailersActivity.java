@@ -1,6 +1,7 @@
 package com.example.android.popmovies;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,8 +39,10 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     private static final String TAG = TrailersActivity.class.getSimpleName();
 
     private static TrailersAdapter mAdapter;
+    private static ReviewsAdapter mReviewAdapter;
     private RecyclerView mTrailersList;
     String mId;
+    private static String sortOrder;
     private static ArrayList<HashMap<String, String>> trailersInfo = new ArrayList<>();
 
     private Toast mToast;
@@ -101,13 +104,9 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         new FetchLoadingTaskDetail().execute(getString(R.string.action_get_trailers), mId);
     }
 
-    private void showMovieDataView() {
-        mTrailersList.setVisibility(View.VISIBLE);
-    }
-
     //FIX: Moving the Async Task here and referencing the correct adapter to load the trailers.
     // The issue was with the AsyncTask refering to a wrong adapter.
-    private static class FetchLoadingTaskDetail extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+    public static class FetchLoadingTaskDetail extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         private String API_KEY = "";
 
@@ -124,7 +123,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                 return null;
             }
 
-            String sortOrder = params[0];
+            sortOrder = params[0];
             String mId = params[1];
 
             // clear the data of ArrayList if it's not empty
@@ -148,28 +147,54 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
                 Log.v(TAG, "JSON Result: " + resultDetail.toString());
 
-                // looping through All Contacts
-                for (int i = 0; i < resultDetail.length(); i++) {
+                if (sortOrder.equals("videos")) {
 
-                    JSONObject r = resultDetail.getJSONObject(i);
+                    // looping through All Contacts
+                    for (int i = 0; i < resultDetail.length(); i++) {
 
-                    String id = r.getString("id");
-                    String key = r.getString("key");
-                    String name = r.getString("name");
-                    String type = r.getString("type");
-                    String trailersUrl = "https://www.youtube.com/watch?v=" + key;
+                        JSONObject r = resultDetail.getJSONObject(i);
 
-                    HashMap<String, String> movieInfo = new HashMap<>();
-                    // adding each child node to HashMap key => value
+                        String id = r.getString("id");
+                        String key = r.getString("key");
+                        String name = r.getString("name");
+                        String type = r.getString("type");
+                        String trailersUrl = "https://www.youtube.com/watch?v=" + key;
 
-                    movieInfo.put("id", id);
-                    movieInfo.put("name", name);
-                    movieInfo.put("trailersUrl", trailersUrl);
+                        HashMap<String, String> movieInfo = new HashMap<>();
+                        // adding each child node to HashMap key => value
 
-                    // adding contact to movieInfo list
-                    trailersInfo.add(movieInfo);
+                        movieInfo.put("id", id);
+                        movieInfo.put("name", name);
+                        movieInfo.put("trailersUrl", trailersUrl);
+
+                        // adding contact to movieInfo list
+                        trailersInfo.add(movieInfo);
+                        Log.v(TAG, trailersInfo.toString());
+                    }
+                } else if (sortOrder.equals("reviews")){
+
+                    // looping through All Contacts
+                    for (int i = 0; i < resultDetail.length(); i++) {
+
+                        JSONObject r = resultDetail.getJSONObject(i);
+
+                        String id = r.getString("id");
+                        String author = r.getString("author");
+                        String content = r.getString("content");
+                        String reviwUrl = r.getString("url");
+
+                        HashMap<String, String> movieInfo = new HashMap<>();
+                        // adding each child node to HashMap key => value
+
+                        movieInfo.put("id", id);
+                        movieInfo.put("author", author);
+                        movieInfo.put("content", content);
+                        movieInfo.put("reviewUrl", reviwUrl);
+
+                        // adding contact to movieInfo list
+                        trailersInfo.add(movieInfo);
+                    }
                 }
-                Log.v(TAG, "MoviesInfo: " + trailersInfo.toString());
                 return trailersInfo;
             } catch (Exception e) {
                 Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -183,8 +208,13 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         protected void onPostExecute(ArrayList<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
             if (hashMaps != null) {
-                Log.v(TAG, "onPost is executed" + hashMaps.toString());
-                mAdapter.setTrailersData(hashMaps);
+                if (sortOrder.equals("videos")) {
+                    Log.v(TAG, "onPost is executed for videos" + hashMaps.toString());
+                    mAdapter.setTrailersData(hashMaps);
+                } else if (sortOrder.equals("reviews")) {
+                    Log.v(TAG, "onPost is executed for reviews" + hashMaps.toString());
+                    mReviewAdapter.setReviews(hashMaps);
+                }
             }
         }
     }

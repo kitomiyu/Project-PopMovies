@@ -1,9 +1,8 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by toda on 2017/12/20.
+ * Created by toda on 2018/01/10.
  */
 
-public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.NumberViewHolder> {
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberViewHolder> {
 
-    private static final String TAG = TrailersAdapter.class.getSimpleName();
+    private static final String TAG = ReviewsAdapter.class.getSimpleName();
 
-    final private ListItemClickListener mOnClickListener;
-    private static int viewHolderCount;
-    private ArrayList<HashMap<String, String>> mTrailersData;
+    final private ReviewsAdapter.ListItemClickListener mOnClickListener;
+    private ArrayList<HashMap<String, String>> mReviewsData;
     private HashMap<String, String> currentData;
 
     /**
@@ -40,10 +38,9 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      * @param listener Listener for list item clicks
      */
     //FIX: Removing the hardcoded size parameter and making it dependent on the size of the list passed.
-    public TrailersAdapter(ListItemClickListener listener) {
+    public ReviewsAdapter(ReviewsAdapter.ListItemClickListener listener) {
         mOnClickListener = listener;
-        viewHolderCount = 0;
-        mTrailersData = new ArrayList<>();
+        mReviewsData = new ArrayList<>();
     }
 
     /**
@@ -60,19 +57,16 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     @Override
     public NumberViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
-        int layoutIdForListItem = R.layout.trailers_list_item;
+        int layoutIdForListItem = R.layout.reviews_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
 
         NumberViewHolder viewHolder = new NumberViewHolder(view);
-
-        viewHolderCount++;
-        Log.d(TAG, "onCreateViewHolder: number of ViewHolders created: "
-                + viewHolderCount);
         return viewHolder;
     }
+
 
     /**
      * OnBindViewHolder is called by the RecyclerView to display the data at the specified
@@ -85,13 +79,16 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      * @param position The position of the item within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder(NumberViewHolder holder, int position) {
+    public void onBindViewHolder(ReviewsAdapter.NumberViewHolder holder, int position) {
         Log.v(TAG, "onBindViewHOlder is called");
 
-        currentData = mTrailersData.get(position);
+        currentData = mReviewsData.get(position);
         //FIX: Change key from trailer to "name"
-        String trailerName = currentData.get("name");
-        holder.listItemNumberView.setText(trailerName);
+        String authorName = currentData.get("author");
+        holder.listItemNameView.setText(authorName);
+
+        String reviewContent = currentData.get("content");
+        holder.listItemContentView.setText(reviewContent);
     }
 
     /**
@@ -102,7 +99,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      */
     @Override
     public int getItemCount() {
-        return mTrailersData.size();
+        return mReviewsData.size();
     }
 
     /**
@@ -112,12 +109,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
             implements View.OnClickListener {
 
         // Will display the position in the list, ie 0 through getItemCount() - 1
-        TextView listItemNumberView;
+        TextView listItemNameView;
+        TextView listItemContentView;
 
         public NumberViewHolder(View itemView) {
             super(itemView);
 
-            listItemNumberView = (TextView) itemView.findViewById(R.id.recyclerview_trailer_name);
+            listItemNameView = (TextView) itemView.findViewById(R.id.recyclerview_reivew_authorName);
+            listItemContentView = (TextView) itemView.findViewById(R.id.recyclerview_reivew_content);
             itemView.setOnClickListener(this);
         }
 
@@ -129,14 +128,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            currentData = mTrailersData.get(clickedPosition);
+            currentData = mReviewsData.get(clickedPosition);
             String mv_url = currentData.get("trailersUrl");
             mOnClickListener.onListItemClick(mv_url);
         }
     }
 
-    public void setTrailersData(ArrayList<HashMap<String, String>> mTrailerData) {
-        this.mTrailersData = mTrailerData;
+    public void setReviews(ArrayList<HashMap<String, String>> mReviewsData) {
+        this.mReviewsData = mReviewsData;
         notifyDataSetChanged();
     }
 }

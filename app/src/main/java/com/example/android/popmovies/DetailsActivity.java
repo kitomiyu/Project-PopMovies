@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -92,5 +93,19 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        mMovieRating.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.v(TAG, event.toString());
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    // Open new activity to show movie review
+                    Intent intent = new Intent(DetailsActivity.this, ReviewsActivity.class);
+                    intent.putExtra(Intent.EXTRA_TEXT, currentMovieData.get("id"));
+                    //Start details activity
+                    startActivity(intent);
+                }
+                return false;
+            }
+        });
     }
 }

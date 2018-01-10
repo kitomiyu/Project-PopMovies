@@ -12,6 +12,9 @@
 
     <!--Used in layout-->
     <string name="button_trailers">Trailers</string>
+    <string name="author_list_item_reviews">Author</string>
+    <string name="content_list_item_reviews">Content</string>
+
 
     <!--Used to define sort order-->
     <string name="sort_order_upcoming">upcoming</string>
