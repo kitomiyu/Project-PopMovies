@@ -39,7 +39,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     private static final String TAG = TrailersActivity.class.getSimpleName();
 
     private static TrailersAdapter mAdapter;
-    private static ReviewsAdapter mReviewAdapter;
     private RecyclerView mTrailersList;
     String mId;
     private static String sortOrder;
@@ -213,7 +212,8 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                     mAdapter.setTrailersData(hashMaps);
                 } else if (sortOrder.equals("reviews")) {
                     Log.v(TAG, "onPost is executed for reviews" + hashMaps.toString());
-                    mReviewAdapter.setReviews(hashMaps);
+//                    [FIX] Refer the mReviewAdapter in ReviewsActiity
+                    ReviewsActivity.mReviewAdapter.setReviews(hashMaps);
                 }
             }
         }

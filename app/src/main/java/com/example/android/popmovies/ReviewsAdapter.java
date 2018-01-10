@@ -134,8 +134,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
         }
     }
 
-    public void setReviews(ArrayList<HashMap<String, String>> mReviewsData) {
-        this.mReviewsData = mReviewsData;
+    public void setReviews(ArrayList<HashMap<String, String>> mReviewData) {
+        Log.v(TAG, mReviewData.toString());
+        this.mReviewsData = mReviewData;
         notifyDataSetChanged();
     }
 }

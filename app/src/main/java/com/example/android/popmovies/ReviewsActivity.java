@@ -28,7 +28,7 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
 
     private static final String TAG = ReviewsActivity.class.getSimpleName();
 
-    private static ReviewsAdapter mAdapter;
+    static ReviewsAdapter mReviewAdapter;
     private RecyclerView mReviewsList;
     String mId;
     private static ArrayList<HashMap<String, String>> reviewsInfo = new ArrayList<>();
@@ -53,8 +53,8 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
 
         mReviewsList.setHasFixedSize(true);
 
-        mAdapter = new ReviewsAdapter(this);
-        mReviewsList.setAdapter(mAdapter);
+        mReviewAdapter = new ReviewsAdapter(this);
+        mReviewsList.setAdapter(mReviewAdapter);
 
         loadMovieData();
 
