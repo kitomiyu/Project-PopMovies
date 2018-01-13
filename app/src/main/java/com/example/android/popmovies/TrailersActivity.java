@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popmovies.utilities.NetworkUtils;
@@ -44,8 +45,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     private static String sortOrder;
     private static ArrayList<HashMap<String, String>> trailersInfo = new ArrayList<>();
 
-    private Toast mToast;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
         if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
             mId = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
-            Log.v(TAG, "Get string Extra in TrailersActivity: " + mId);
         }
 
         mTrailersList = (RecyclerView) findViewById(R.id.recyclerview_trailers);
@@ -77,7 +75,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         }
 
     }
-
 
     //FIX: On clicking of back arrow, simply finish the activity.
     @Override
@@ -170,7 +167,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                         trailersInfo.add(movieInfo);
                         Log.v(TAG, trailersInfo.toString());
                     }
-                } else if (sortOrder.equals("reviews")){
+                } else if (sortOrder.equals("reviews")) {
 
                     // looping through All Contacts
                     for (int i = 0; i < resultDetail.length(); i++) {
@@ -193,6 +190,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                         // adding contact to movieInfo list
                         trailersInfo.add(movieInfo);
                     }
+
                 }
                 return trailersInfo;
             } catch (Exception e) {
@@ -206,7 +204,10 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         @Override
         protected void onPostExecute(ArrayList<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
-            if (hashMaps != null) {
+
+            if (hashMaps.isEmpty() == true) {
+                showErrorMessage();
+            } else{
                 if (sortOrder.equals("videos")) {
                     Log.v(TAG, "onPost is executed for videos" + hashMaps.toString());
                     mAdapter.setTrailersData(hashMaps);
@@ -214,8 +215,14 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                     Log.v(TAG, "onPost is executed for reviews" + hashMaps.toString());
 //                    [FIX] Refer the mReviewAdapter in ReviewsActiity
                     ReviewsActivity.mReviewAdapter.setReviews(hashMaps);
-                }
+            }
             }
         }
     }
+
+    public static void showErrorMessage() {
+        /* Then, show the error */
+        ReviewsActivity.mErrorMessage.setVisibility(View.VISIBLE);
+    }
+
 }

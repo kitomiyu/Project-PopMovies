@@ -3,6 +3,9 @@
     <!--Used throughout this app-->
     <string name="app_name">Pop Movies</string>
 
+    <!--Error msg used throughout this app-->
+    <string name="error_no_review">There is no review for this movie</string>
+
     <!-- Used in Action Bar -->
     <string name="action_sort_popular">Most Popular</string>
     <string name="action_sort_toprated">Top Rated</string>
@@ -14,7 +17,6 @@
     <string name="button_trailers">Trailers</string>
     <string name="author_list_item_reviews">Author</string>
     <string name="content_list_item_reviews">Content</string>
-
 
     <!--Used to define sort order-->
     <string name="sort_order_upcoming">upcoming</string>

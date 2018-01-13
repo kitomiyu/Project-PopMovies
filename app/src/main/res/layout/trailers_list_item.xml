@@ -29,7 +29,6 @@
             android:padding="8dp"/>
     </LinearLayout>
 
-
     <!--This View serves as a visual divider between list items-->
     <View
         android:layout_width="match_parent"

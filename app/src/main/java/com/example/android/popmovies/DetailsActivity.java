@@ -58,7 +58,6 @@ public class DetailsActivity extends AppCompatActivity {
         mMovieRating = (RatingBar) findViewById(R.id.ratingBar);
         mRatingNumber = (TextView) findViewById(R.id.mv_rating);
         mTrailers = (Button) findViewById(R.id.action_trailers);
-
         currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
         //FIX: Removed this definition from onResume, as there was no such need anymore

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popmovies.utilities.NetworkUtils;
@@ -32,7 +33,7 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
     private RecyclerView mReviewsList;
     String mId;
     private static ArrayList<HashMap<String, String>> reviewsInfo = new ArrayList<>();
-    private Toast mToast;
+    static TextView mErrorMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
         }
 
         mReviewsList = (RecyclerView) findViewById(R.id.recyclerview_reviews);
+        mErrorMessage = (TextView) findViewById(R.id.rv_error_message_display);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mReviewsList.setLayoutManager(layoutManager);
@@ -83,6 +85,4 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
     private void loadMovieData() {
         new TrailersActivity.FetchLoadingTaskDetail().execute(getString(R.string.action_get_reviews), mId);
     }
-
-
 }

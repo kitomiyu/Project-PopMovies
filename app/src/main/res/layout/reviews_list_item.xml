@@ -6,32 +6,48 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/CategoryStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/author_list_item_reviews" />
-
-        <TextView
-            android:id="@+id/recyclerview_reivew_authorName"
-            style="@style/ContentsStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Author Name" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/recyclerview_reivew_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start|center"
+        android:paddingTop="8dp"
         android:paddingLeft="16dp"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textSize="16sp" />
+        android:paddingRight="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/CategoryStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Author Name" />
+
+            <TextView
+                android:id="@+id/recyclerview_reivew_authorName"
+                style="@style/ContentsStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Author Name" />
+        </LinearLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/recyclerview_reivew_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:paddingLeft="16dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textSize="16sp" />
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
 
     <!--This View serves as a visual divider between list items-->
     <View
@@ -39,6 +55,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:background="#dadada" />
 
 </LinearLayout>

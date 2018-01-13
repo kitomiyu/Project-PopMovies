@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
     final private ReviewsAdapter.ListItemClickListener mOnClickListener;
     private ArrayList<HashMap<String, String>> mReviewsData;
     private HashMap<String, String> currentData;
+    static TextView mErrorMessageDisplay;
 
     /**
      * The interface that receives onClick messages.
@@ -139,4 +141,5 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
         this.mReviewsData = mReviewData;
         notifyDataSetChanged();
     }
+
 }
