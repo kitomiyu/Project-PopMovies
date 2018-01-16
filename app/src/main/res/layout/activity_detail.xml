@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/app_bar"
+        style="@style/CategoryStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
-        style="@style/CategoryStyle">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/mv_display_title"
@@ -30,51 +32,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <RatingBar
-                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/mv_rating"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/colorDarkWhite"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:textColor="@color/colorDarkWhite" />
         </LinearLayout>
 
         <Button
             android:id="@+id/action_trailers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/button_trailers"/>
-
+            android:text="@string/button_trailers"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/mv_image"
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
         android:layout_gravity="center"
-        android:contentDescription="@string/movieImage"/>
+        android:layout_weight="2"
+        android:contentDescription="@string/movieImage"
+        android:paddingTop="16dp" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/mv_overview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center"
-            android:textSize="16sp"
-            android:textAppearance="?android:textAppearanceMedium" />
-    </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+    <include layout="@layout/content_scrolling" />
 
 </LinearLayout>
+
+
