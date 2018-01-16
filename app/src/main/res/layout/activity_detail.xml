@@ -31,6 +31,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
             android:orientation="horizontal">
 
             <RatingBar
@@ -48,31 +49,39 @@
                 android:textColor="@color/colorDarkWhite" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/action_trailers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_trailers"
-            android:textSize="16sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/mv_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="2"
+        android:layout_weight="2.5"
         android:contentDescription="@string/movieImage"
         android:paddingTop="16dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center_horizontal">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="right"
-        app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+        <Button
+            android:id="@+id/action_trailers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_trailers"
+            android:layout_gravity="center"
+            android:textSize="16sp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+    </LinearLayout>
 
     <include layout="@layout/content_scrolling" />
 

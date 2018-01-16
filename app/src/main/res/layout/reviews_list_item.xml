@@ -32,7 +32,7 @@
                 tools:text="Author Name" />
         </LinearLayout>
 
-        <include layout="@layout/content_scrolling"/>
+        <include layout="@layout/content_scrolling_review"/>
 
     </LinearLayout>
 
