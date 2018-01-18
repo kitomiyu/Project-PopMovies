@@ -41,7 +41,6 @@ public class MainActivityFragment extends Fragment {
      * release date
      */
     private static ArrayList<HashMap<String, String>> moviesInfo;
-    private static ArrayList<HashMap<String, String>> movies;
 
     public MainActivityFragment() {
         //empty public constructor

@@ -1,7 +1,10 @@
 package com.example.android.popmovies;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +19,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popmovies.data.FavoriteMovieContract;
+import com.example.android.popmovies.data.FavoriteMovieDbHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -46,12 +51,16 @@ public class DetailsActivity extends AppCompatActivity {
     String mId;
     HashMap<String, String> currentMovieData;
 
+    // local field member of type SQLiteDatabase called mDb
+    private SQLiteDatabase mDb;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Log.v(TAG, "onCreate is called");
+
+        currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
         mMovieTitle = (TextView) findViewById(R.id.mv_display_title);
         mMovieReleaseDate = (TextView) findViewById(R.id.mv_releaseDate);
@@ -60,9 +69,8 @@ public class DetailsActivity extends AppCompatActivity {
         mMovieRating = (RatingBar) findViewById(R.id.ratingBar);
         mRatingNumber = (TextView) findViewById(R.id.mv_rating);
         mTrailers = (Button) findViewById(R.id.action_trailers);
-        currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
-        //FIX: Removed this definition from onResume, as there was no such need anymore
+        mId = currentMovieData.get("id");
         mTitle = currentMovieData.get("original_title");
         mMovieTitle.setText(mTitle);
 
@@ -81,7 +89,14 @@ public class DetailsActivity extends AppCompatActivity {
         mMovieRating.setRating(Float.valueOf(mRating));
         mRatingNumber.setText(mRating);
 
-//        When user click button to show trailers, open new activity
+        // Create a DB helper (this will create the DB if run for the first time)
+        FavoriteMovieDbHelper dbHelper = new FavoriteMovieDbHelper(getApplicationContext());
+
+        // Keep a reference to the mDb until paused or killed. Get a writable database
+        mDb = dbHelper.getWritableDatabase();
+
+
+        // When user click button to show trailers, open new activity
         mTrailers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +109,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        //        When user tap RatingBar, open new activity
+        // When user tap RatingBar, open new activity
         mMovieRating.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -110,14 +125,53 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        //When user tap floatingActionButton, save it in local DB
+        // When user tap floatingActionButton, save it in local DB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                //allow users to mark a movie as a favorite in the details view by tapping a button(star). This is for a local movies collection that we will maintain and does not require an API request*.
+                addNewFavoriteMovie(mId, mTitle, mImage);
             }
         });
     }
+
+    /**
+     * Query the mDb and get all MovieUrls from the table
+     *
+     * @return Cursor containing the list of guests
+     */
+    private Cursor getAllMovieUrls() {
+        return mDb.query(
+                FavoriteMovieContract.MovieData.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL
+        );
+    }
+
+    /**
+     * Adds a new favorite movie to the mDb including the movie id/ name/ url
+     *
+     * @param name  Movie's name
+     * @param mvUrl Number in party
+     * @return id of new record added
+     */
+    private long addNewFavoriteMovie(String mvId, String name, String mvUrl) {
+        ContentValues cv = new ContentValues();
+
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID, mvId);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME, name);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL, mvUrl);
+        return mDb.insert(FavoriteMovieContract.MovieData.TABLE_NAME, null, cv);
+    }
+
+    // Check duplication data in DB and show error msg if it already exists
+
 }
