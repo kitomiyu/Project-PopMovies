@@ -17,7 +17,12 @@
     <item
         android:id="@+id/action_sort_upcoming"
         android:title="@string/action_sort_upcoming"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sort_favorite"
+        android:title="@string/action_sort_myFavorite"
+        android:orderInCategory="4"
         app:showAsAction="never" />
 
 </menu>

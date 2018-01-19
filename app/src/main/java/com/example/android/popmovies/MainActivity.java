@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_sort_upcoming:
                 new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
                 return true;
+            case R.id.action_sort_favorite:
+
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

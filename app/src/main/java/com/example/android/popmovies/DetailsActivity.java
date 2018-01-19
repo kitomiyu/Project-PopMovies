@@ -42,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity {
     RatingBar mMovieRating;
     TextView mRatingNumber;
     Button mTrailers;
+    // Holds on to the cursor to display the waitlist
+    private Cursor mCursor;
 
     String mReleaseDate;
     String mImage;
@@ -114,7 +116,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Log.v(TAG, event.toString());
-                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Open new activity to show movie review
                     Intent intent = new Intent(DetailsActivity.this, ReviewsActivity.class);
                     intent.putExtra(Intent.EXTRA_TEXT, currentMovieData.get("id"));
@@ -130,11 +132,16 @@ public class DetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-                //allow users to mark a movie as a favorite in the details view by tapping a button(star). This is for a local movies collection that we will maintain and does not require an API request*.
-                addNewFavoriteMovie(mId, mTitle, mImage);
+                mCursor = getAllMovieData();
+
+                //if the mv is not in favorite yet, allow users to mark a movie as a favorite in the details view by tapping a button(star).
+                if (checkExistedData(mCursor, mTitle) == false) {
+                    addNewFavoriteMovie(mId, mTitle, mImage);
+
+                    Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }
@@ -144,7 +151,7 @@ public class DetailsActivity extends AppCompatActivity {
      *
      * @return Cursor containing the list of guests
      */
-    private Cursor getAllMovieUrls() {
+    private Cursor getAllMovieData() {
         return mDb.query(
                 FavoriteMovieContract.MovieData.TABLE_NAME,
                 null,
@@ -152,7 +159,7 @@ public class DetailsActivity extends AppCompatActivity {
                 null,
                 null,
                 null,
-                FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL
+                null
         );
     }
 
@@ -169,9 +176,40 @@ public class DetailsActivity extends AppCompatActivity {
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID, mvId);
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME, name);
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL, mvUrl);
+
         return mDb.insert(FavoriteMovieContract.MovieData.TABLE_NAME, null, cv);
     }
 
-    // Check duplication data in DB and show error msg if it already exists
+    // Check existing db to know duplication
+    private boolean checkExistedData(Cursor cursor, String name) {
+        boolean isEof = cursor.moveToFirst();
+
+        while (isEof) {
+            // Update the view holder with the information needed to display
+            String mvName = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME));
+            if (mvName.equals(name)) {
+                Toast.makeText(this, "This movie already exists in your favorite", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            isEof = cursor.moveToNext();
+        }
+        return false;
+    }
+
+    /**
+     * Swaps the Cursor currently held in the adapter with a new one
+     * and triggers a UI refresh
+     *
+     * @param newCursor the new cursor that will replace the existing one
+     */
+    public void swapCursor(Cursor newCursor) {
+        // Always close the previous mCursor first
+        if (mCursor != null) mCursor.close();
+        mCursor = newCursor;
+        if (newCursor != null) {
+//                // Force the RecyclerView to refresh
+//                this.notifyDataSetChanged();
+        }
+    }
 
 }
