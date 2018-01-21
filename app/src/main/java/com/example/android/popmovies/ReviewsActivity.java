@@ -47,8 +47,8 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
             Log.v(TAG, "Get string Extra in TrailersActivity: " + mId);
         }
 
-        mReviewsList = (RecyclerView) findViewById(R.id.recyclerview_reviews);
-        mErrorMessage = (TextView) findViewById(R.id.rv_error_message_display);
+        mReviewsList = findViewById(R.id.recyclerview_reviews);
+        mErrorMessage = findViewById(R.id.rv_error_message_display);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mReviewsList.setLayoutManager(layoutManager);

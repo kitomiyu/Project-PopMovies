@@ -117,8 +117,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
         public NumberViewHolder(View itemView) {
             super(itemView);
 
-            listItemNameView = (TextView) itemView.findViewById(R.id.recyclerview_reivew_authorName);
-            listItemContentView = (TextView) itemView.findViewById(R.id.recyclerview_reivew_content);
+            listItemNameView = itemView.findViewById(R.id.recyclerview_reivew_authorName);
+            listItemContentView = itemView.findViewById(R.id.recyclerview_reivew_content);
             itemView.setOnClickListener(this);
         }
 

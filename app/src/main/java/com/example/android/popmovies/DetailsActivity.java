@@ -23,6 +23,7 @@ import com.example.android.popmovies.data.FavoriteMovieContract;
 import com.example.android.popmovies.data.FavoriteMovieDbHelper;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -42,7 +43,7 @@ public class DetailsActivity extends AppCompatActivity {
     RatingBar mMovieRating;
     TextView mRatingNumber;
     Button mTrailers;
-    // Holds on to the cursor to display the waitlist
+    // Holds on to the cursor
     private Cursor mCursor;
 
     String mReleaseDate;
@@ -52,6 +53,10 @@ public class DetailsActivity extends AppCompatActivity {
     String mRating;
     String mId;
     HashMap<String, String> currentMovieData;
+
+    private static ArrayList<HashMap<String, String>> moviesInfo;
+    private static MovieImagesAdapter imagesAdapter;
+
 
     // local field member of type SQLiteDatabase called mDb
     private SQLiteDatabase mDb;
@@ -64,13 +69,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         currentMovieData = (HashMap<String, String>) getIntent().getSerializableExtra(getString(R.string.currentMovieData));
 
-        mMovieTitle = (TextView) findViewById(R.id.mv_display_title);
-        mMovieReleaseDate = (TextView) findViewById(R.id.mv_releaseDate);
-        mMovieImage = (ImageView) findViewById(R.id.mv_image);
-        mMovieOverview = (TextView) findViewById(R.id.mv_overview);
-        mMovieRating = (RatingBar) findViewById(R.id.ratingBar);
-        mRatingNumber = (TextView) findViewById(R.id.mv_rating);
-        mTrailers = (Button) findViewById(R.id.action_trailers);
+        mMovieTitle = findViewById(R.id.mv_display_title);
+        mMovieReleaseDate = findViewById(R.id.mv_releaseDate);
+        mMovieImage = findViewById(R.id.mv_image);
+        mMovieOverview = findViewById(R.id.mv_overview);
+        mMovieRating = findViewById(R.id.ratingBar);
+        mRatingNumber = findViewById(R.id.mv_rating);
+        mTrailers = findViewById(R.id.action_trailers);
 
         mId = currentMovieData.get("id");
         mTitle = currentMovieData.get("original_title");
@@ -128,11 +133,10 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         // When user tap floatingActionButton, save it in local DB
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 mCursor = getAllMovieData();
 
                 //if the mv is not in favorite yet, allow users to mark a movie as a favorite in the details view by tapping a button(star).
@@ -142,6 +146,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
+                mCursor.close();
             }
         });
     }
@@ -149,7 +154,7 @@ public class DetailsActivity extends AppCompatActivity {
     /**
      * Query the mDb and get all MovieUrls from the table
      *
-     * @return Cursor containing the list of guests
+     * @return Cursor containing the list
      */
     private Cursor getAllMovieData() {
         return mDb.query(
@@ -193,23 +198,32 @@ public class DetailsActivity extends AppCompatActivity {
             }
             isEof = cursor.moveToNext();
         }
+        cursor.close();
         return false;
     }
 
-    /**
-     * Swaps the Cursor currently held in the adapter with a new one
-     * and triggers a UI refresh
-     *
-     * @param newCursor the new cursor that will replace the existing one
-     */
-    public void swapCursor(Cursor newCursor) {
-        // Always close the previous mCursor first
-        if (mCursor != null) mCursor.close();
-        mCursor = newCursor;
-        if (newCursor != null) {
-//                // Force the RecyclerView to refresh
-//                this.notifyDataSetChanged();
-        }
-    }
+    // Check the existing db to get ImageUrl and save it in ArrayList<HashMap<String, String>>
+    public void displayFavoriteMovie() {
 
+        mCursor = getAllMovieData();
+
+        boolean isEof = mCursor.moveToFirst();
+
+        while (isEof) {
+            // Update the view holder with the information needed to display
+            String mvImageUrl = mCursor.getString(mCursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL));
+            String mvName = mCursor.getString(mCursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME));
+
+            HashMap<String, String> movieInfo = new HashMap<>();
+
+            movieInfo.put("original_title", mvName);
+            movieInfo.put("imageUrl", mvImageUrl);
+
+            moviesInfo.add(movieInfo);
+            isEof = mCursor.moveToNext();
+        }
+        Log.v(TAG, "when FavriteSort is tapped: " +moviesInfo);
+        mCursor.close();
+        imagesAdapter.setGridData(moviesInfo);
+    }
 }

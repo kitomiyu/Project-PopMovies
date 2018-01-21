@@ -30,7 +30,6 @@ public class MainActivityFragment extends Fragment {
 
     GridView gridView;
     private static MovieImagesAdapter imagesAdapter;
-    private static TrailersAdapter trailersAdapter;
 
     /**
      * ArrayList to store

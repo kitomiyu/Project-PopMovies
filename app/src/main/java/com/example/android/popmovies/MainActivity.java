@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
                 return true;
             case R.id.action_sort_favorite:
-
+                new DetailsActivity().displayFavoriteMovie();
                 return true;
         }
         return super.onOptionsItemSelected(item);

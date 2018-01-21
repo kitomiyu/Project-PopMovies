@@ -56,7 +56,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
             mId = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
         }
 
-        mTrailersList = (RecyclerView) findViewById(R.id.recyclerview_trailers);
+        mTrailersList = findViewById(R.id.recyclerview_trailers);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mTrailersList.setLayoutManager(layoutManager);

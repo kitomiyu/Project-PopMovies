@@ -117,7 +117,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         public NumberViewHolder(View itemView) {
             super(itemView);
 
-            listItemNumberView = (TextView) itemView.findViewById(R.id.recyclerview_trailer_name);
+            listItemNumberView = itemView.findViewById(R.id.recyclerview_trailer_name);
             itemView.setOnClickListener(this);
         }
 
