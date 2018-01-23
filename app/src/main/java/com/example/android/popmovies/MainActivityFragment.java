@@ -1,6 +1,8 @@
 package com.example.android.popmovies;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.example.android.popmovies.data.FavoriteMovieContract;
 import com.example.android.popmovies.utilities.NetworkUtils;
 
 import org.json.JSONArray;
@@ -169,3 +172,53 @@ public class MainActivityFragment extends Fragment {
 
     //FIX - Removed the AsyncTask from here and moved to TrailersActivity
 }
+    // Check the existing db to get ImageUrl and save it in ArrayList<HashMap<String, String>>
+    public void displayFavoriteMovie(SQLiteDatabase database) {
+
+        // clear the data of ArrayList if it's not empty
+        if (moviesInfo != null) {
+            moviesInfo.clear();
+        }
+
+        Cursor cursor =  database.query(
+                FavoriteMovieContract.MovieData.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        boolean isEof = cursor.moveToFirst();
+
+        while (isEof) {
+            // Update the view holder with the information needed to display
+            String mvImageUrl = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL));
+            String mvName = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME));
+            String mvOverview = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_OVERVIEW));
+            String mvRating = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RATING));
+            String mvId = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID));
+            String mvReleseDate = cursor.getString(cursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RELEASEDATE));
+
+            HashMap<String, String> movieInfo = new HashMap<>();
+
+            movieInfo.put("id", mvId);
+            movieInfo.put("original_title", mvName);
+            movieInfo.put("vote_average", mvRating);
+            movieInfo.put("overview", mvOverview);
+            movieInfo.put("release_date", mvReleseDate);
+            movieInfo.put("imageUrl", mvImageUrl);
+
+            moviesInfo.add(movieInfo);
+            isEof = cursor.moveToNext();
+        }
+        Log.v(TAG, "when FavriteSort is tapped: " + moviesInfo);
+        cursor.close();
+        database.close();
+
+        imagesAdapter.setGridData(moviesInfo);
+    }
+
+}
+>>>>>>> ded889a... [FIX] Null pointer exception when user tap Favorite item from the menu

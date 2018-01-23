@@ -54,10 +54,6 @@ public class DetailsActivity extends AppCompatActivity {
     String mId;
     HashMap<String, String> currentMovieData;
 
-    private static ArrayList<HashMap<String, String>> moviesInfo;
-    private static MovieImagesAdapter imagesAdapter;
-
-
     // local field member of type SQLiteDatabase called mDb
     private SQLiteDatabase mDb;
 
@@ -78,6 +74,7 @@ public class DetailsActivity extends AppCompatActivity {
         mTrailers = findViewById(R.id.action_trailers);
 
         mId = currentMovieData.get("id");
+
         mTitle = currentMovieData.get("original_title");
         mMovieTitle.setText(mTitle);
 
@@ -101,7 +98,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Keep a reference to the mDb until paused or killed. Get a writable database
         mDb = dbHelper.getWritableDatabase();
-
 
         // When user click button to show trailers, open new activity
         mTrailers.setOnClickListener(new View.OnClickListener() {
@@ -137,11 +133,11 @@ public class DetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCursor = getAllMovieData();
+                mCursor = getAllMovieData(mDb);
 
                 //if the mv is not in favorite yet, allow users to mark a movie as a favorite in the details view by tapping a button(star).
                 if (checkExistedData(mCursor, mTitle) == false) {
-                    addNewFavoriteMovie(mId, mTitle, mImage);
+                    addNewFavoriteMovie();
 
                     Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -156,8 +152,8 @@ public class DetailsActivity extends AppCompatActivity {
      *
      * @return Cursor containing the list
      */
-    private Cursor getAllMovieData() {
-        return mDb.query(
+    private Cursor getAllMovieData(SQLiteDatabase db) {
+        return db.query(
                 FavoriteMovieContract.MovieData.TABLE_NAME,
                 null,
                 null,
@@ -170,17 +166,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     /**
      * Adds a new favorite movie to the mDb including the movie id/ name/ url
-     *
-     * @param name  Movie's name
-     * @param mvUrl Number in party
-     * @return id of new record added
      */
-    private long addNewFavoriteMovie(String mvId, String name, String mvUrl) {
+    private long addNewFavoriteMovie() {
         ContentValues cv = new ContentValues();
 
-        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID, mvId);
-        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME, name);
-        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL, mvUrl);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID, mId);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME, mTitle);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL, mImage);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_OVERVIEW, mOverview);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RATING, mRating);
+        cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RELEASEDATE, mReleaseDate);
 
         return mDb.insert(FavoriteMovieContract.MovieData.TABLE_NAME, null, cv);
     }
@@ -202,28 +197,4 @@ public class DetailsActivity extends AppCompatActivity {
         return false;
     }
 
-    // Check the existing db to get ImageUrl and save it in ArrayList<HashMap<String, String>>
-    public void displayFavoriteMovie() {
-
-        mCursor = getAllMovieData();
-
-        boolean isEof = mCursor.moveToFirst();
-
-        while (isEof) {
-            // Update the view holder with the information needed to display
-            String mvImageUrl = mCursor.getString(mCursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL));
-            String mvName = mCursor.getString(mCursor.getColumnIndex(FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME));
-
-            HashMap<String, String> movieInfo = new HashMap<>();
-
-            movieInfo.put("original_title", mvName);
-            movieInfo.put("imageUrl", mvImageUrl);
-
-            moviesInfo.add(movieInfo);
-            isEof = mCursor.moveToNext();
-        }
-        Log.v(TAG, "when FavriteSort is tapped: " +moviesInfo);
-        mCursor.close();
-        imagesAdapter.setGridData(moviesInfo);
-    }
 }

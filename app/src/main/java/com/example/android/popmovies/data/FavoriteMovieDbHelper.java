@@ -21,6 +21,7 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
     }
 
     // Create db at the first time
+    //The onCreate() and onUpgrade() methods are be called by the Android OS. onCreate() method is called in case Android SQLite Database doesn’t exist and we want to get a connection to the database.
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -29,6 +30,9 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
                 FavoriteMovieContract.MovieData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID + " TEXT NOT NULL, " +
                 FavoriteMovieContract.MovieData.COLUMN_MOVIE_NAME + " TEXT NOT NULL, " +
+                FavoriteMovieContract.MovieData.COLUMN_MOVIE_RATING + " TEXT NOT NULL, " +
+                FavoriteMovieContract.MovieData.COLUMN_MOVIE_OVERVIEW + " TEXT NOT NULL, " +
+                FavoriteMovieContract.MovieData.COLUMN_MOVIE_RELEASEDATE + " TEXT NOT NULL, " +
                 FavoriteMovieContract.MovieData.COLUMN_MOVIE_URL + " TEXT NOT NULL" +
                 "); ";
 
@@ -37,6 +41,7 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_FAVORITEMOVIE_TABLE);
     }
 
+    //if the database already exists, but the database version is changed the onUpgrade method is invoked.
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         // For now simply drop the table and create a new one. This means if you change the
@@ -46,4 +51,5 @@ public class FavoriteMovieDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + FavoriteMovieContract.MovieData.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
+
 }

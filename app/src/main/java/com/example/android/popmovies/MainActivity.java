@@ -1,11 +1,14 @@
 package com.example.android.popmovies;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.android.popmovies.data.FavoriteMovieDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
                 new MainActivityFragment.FetchLoadingTask().execute(getString(R.string.sort_order_upcoming));
                 return true;
             case R.id.action_sort_favorite:
-                new DetailsActivity().displayFavoriteMovie();
+                FavoriteMovieDbHelper mDbHelper = new FavoriteMovieDbHelper(this);
+                // Keep a reference to the mDb until paused or killed. Get a writable database
+                SQLiteDatabase database = mDbHelper.getWritableDatabase();
+                new MainActivityFragment().displayFavoriteMovie(database);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -209,10 +209,8 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                 showErrorMessage();
             } else{
                 if (sortOrder.equals("videos")) {
-                    Log.v(TAG, "onPost is executed for videos" + hashMaps.toString());
                     mAdapter.setTrailersData(hashMaps);
                 } else if (sortOrder.equals("reviews")) {
-                    Log.v(TAG, "onPost is executed for reviews" + hashMaps.toString());
 //                    [FIX] Refer the mReviewAdapter in ReviewsActiity
                     ReviewsActivity.mReviewAdapter.setReviews(hashMaps);
             }
