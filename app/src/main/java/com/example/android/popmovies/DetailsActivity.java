@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -133,14 +134,11 @@ public class DetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCursor = getAllMovieData(mDb);
+                mCursor = getAllMovieData();
 
                 //if the mv is not in favorite yet, allow users to mark a movie as a favorite in the details view by tapping a button(star).
                 if (checkExistedData(mCursor, mTitle) == false) {
                     addNewFavoriteMovie();
-
-                    Snackbar.make(view, "Save this move as your favorite", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
                 }
                 mCursor.close();
             }
@@ -152,22 +150,18 @@ public class DetailsActivity extends AppCompatActivity {
      *
      * @return Cursor containing the list
      */
-    private Cursor getAllMovieData(SQLiteDatabase db) {
-        return db.query(
-                FavoriteMovieContract.MovieData.TABLE_NAME,
+    private Cursor getAllMovieData() {
+        return getContentResolver().query(FavoriteMovieContract.MovieData.CONTENT_URI,
                 null,
                 null,
                 null,
-                null,
-                null,
-                null
-        );
+                null);
     }
 
     /**
      * Adds a new favorite movie to the mDb including the movie id/ name/ url
      */
-    private long addNewFavoriteMovie() {
+    private void addNewFavoriteMovie() {
         ContentValues cv = new ContentValues();
 
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_ID, mId);
@@ -177,7 +171,12 @@ public class DetailsActivity extends AppCompatActivity {
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RATING, mRating);
         cv.put(FavoriteMovieContract.MovieData.COLUMN_MOVIE_RELEASEDATE, mReleaseDate);
 
-        return mDb.insert(FavoriteMovieContract.MovieData.TABLE_NAME, null, cv);
+        // Insert the content values via a ContentResolver
+        Uri uri = getContentResolver().insert(FavoriteMovieContract.MovieData.CONTENT_URI, cv);
+        // Display the URI that's returned with a Toast
+        if(uri != null) {
+            Toast.makeText(getBaseContext(), R.string.save_mv_successfully, Toast.LENGTH_LONG).show();
+        }
     }
 
     // Check existing db to know duplication

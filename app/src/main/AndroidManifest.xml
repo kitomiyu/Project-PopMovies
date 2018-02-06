@@ -22,8 +22,7 @@
         </activity>
         <activity
             android:name=".DetailsActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -31,6 +30,15 @@
         <!--FIX : Removing Parent Activity Definitions-->
         <activity android:name=".TrailersActivity" />
         <activity android:name=".ReviewsActivity"/>
+
+        <!-- Register the TaskContentProvider -->
+        <!-- Set name, authorities, and exported attributes -->
+        <!-- exported = false limits access to this ContentProvider to only this app -->
+        <provider
+            android:name="com.example.android.popmovies.data.FavoriteMovieContentProvider"
+            android:authorities="com.example.android.popmovies"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

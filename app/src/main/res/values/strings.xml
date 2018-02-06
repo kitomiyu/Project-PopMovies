@@ -39,4 +39,6 @@
     <string name="release_date">release_date</string>
     <string name="base_url">http://image.tmdb.org/t/p/w185/</string>
 
+    <string name="save_mv_successfully">Save this move as your favorite</string>
+
 </resources>
