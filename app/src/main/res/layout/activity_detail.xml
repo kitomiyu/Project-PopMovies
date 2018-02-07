@@ -1,89 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/app_bar"
-        style="@style/CategoryStyle"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/mv_display_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="22sp" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="mv_title" />
 
         <TextView
             android:id="@+id/mv_releaseDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorDarkWhite"
-            android:textSize="16sp" />
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/mv_display_title"
+            app:layout_constraintTop_toBottomOf="@+id/mv_display_title"
+            tools:text="releaseDate" />
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="@+id/mv_releaseDate"
+            app:layout_constraintStart_toStartOf="@+id/mv_releaseDate"
+            app:layout_constraintTop_toBottomOf="@+id/mv_releaseDate" />
 
-            <TextView
-                android:id="@+id/mv_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:textColor="@color/colorDarkWhite" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/mv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/ratingBar"
+            app:layout_constraintTop_toBottomOf="@+id/mv_releaseDate"
+            tools:text="Rating" />
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/mv_image"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5"
-        android:contentDescription="@string/movieImage"
-        android:paddingTop="16dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center_horizontal">
+        <ImageView
+            android:id="@+id/mv_image"
+            android:layout_width="134dp"
+            android:layout_height="211dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/movieImage"
+            app:layout_constraintStart_toStartOf="@+id/ratingBar"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            app:srcCompat="@android:drawable/alert_light_frame" />
 
         <Button
             android:id="@+id/action_trailers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/button_trailers"
-            android:layout_gravity="center"
-            android:textSize="16sp" />
+            app:layout_constraintLeft_toLeftOf="@+id/mv_releaseDate"
+            app:layout_constraintTop_toBottomOf="@+id/mv_image" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:layout_constraintStart_toEndOf="@+id/action_trailers"
+            app:layout_constraintTop_toBottomOf="@+id/mv_image"
             app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/mv_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/mv_releaseDate"
+            app:layout_constraintTop_toBottomOf="@+id/action_trailers"
+            tools:text="mv_overview" />
 
-    <include layout="@layout/content_scrolling" />
-
-</LinearLayout>
-
-
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

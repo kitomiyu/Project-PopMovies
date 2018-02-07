@@ -221,4 +221,3 @@ public class MainActivityFragment extends Fragment {
     }
 
 }
->>>>>>> ded889a... [FIX] Null pointer exception when user tap Favorite item from the menu
