@@ -5,7 +5,7 @@
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:scaleType="centerCrop"
         android:id="@+id/movie_image"
         android:contentDescription="@string/movieImage"/>
