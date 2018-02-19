@@ -1,7 +1,6 @@
 package com.example.android.popmovies;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +11,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.popmovies.utilities.NetworkUtils;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,7 +24,7 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
 
     static ReviewsAdapter mReviewAdapter;
     private RecyclerView mReviewsList;
-    String mId;
+    private String mId;
     private static ArrayList<HashMap<String, String>> reviewsInfo = new ArrayList<>();
     static TextView mErrorMessage;
 

@@ -1,26 +1,15 @@
 package com.example.android.popmovies;
 
-import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popmovies.utilities.NetworkUtils;
 
@@ -41,9 +30,10 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
     private static TrailersAdapter mAdapter;
     private RecyclerView mTrailersList;
-    String mId;
+    private String mId;
     private static String sortOrder;
     private static ArrayList<HashMap<String, String>> trailersInfo = new ArrayList<>();
+    private static final String LIFECYCLE_CALLBACKS_LIST_KEY = "callbacks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

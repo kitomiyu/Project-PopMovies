@@ -34,24 +34,24 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
     // Set variables
-    Context mContext;
-    TextView mMovieTitle;
-    TextView mMovieReleaseDate;
-    ImageView mMovieImage;
-    TextView mMovieOverview;
-    RatingBar mMovieRating;
-    TextView mRatingNumber;
-    Button mTrailers;
+    private Context mContext;
+    private TextView mMovieTitle;
+    private TextView mMovieReleaseDate;
+    private ImageView mMovieImage;
+    private TextView mMovieOverview;
+    private RatingBar mMovieRating;
+    private TextView mRatingNumber;
+    private Button mTrailers;
     // Holds on to the cursor
     private Cursor mCursor;
 
-    String mReleaseDate;
-    String mImage;
-    String mTitle;
-    String mOverview;
-    String mRating;
-    String mId;
-    HashMap<String, String> currentMovieData;
+    private String mReleaseDate;
+    private String mImage;
+    private String mTitle;
+    private String mOverview;
+    private String mRating;
+    private String mId;
+    private HashMap<String, String> currentMovieData;
 
     // local field member of type SQLiteDatabase called mDb
     private SQLiteDatabase mDb;
