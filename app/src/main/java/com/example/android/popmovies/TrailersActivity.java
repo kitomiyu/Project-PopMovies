@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +34,9 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     private String mId;
     private static String sortOrder;
     private static ArrayList<HashMap<String, String>> trailersInfo = new ArrayList<>();
-    private static final String LIFECYCLE_CALLBACKS_LIST_KEY = "callbacks";
+    public final static String LIST_STATE_KEY = "recycler_list_state";
+    Parcelable listState;
+    LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
         mTrailersList = findViewById(R.id.recyclerview_trailers);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         mTrailersList.setLayoutManager(layoutManager);
 
         mTrailersList.setHasFixedSize(true);
@@ -56,7 +59,9 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         mAdapter = new TrailersAdapter(this);
         mTrailersList.setAdapter(mAdapter);
 
-        loadMovieData();
+        if (savedInstanceState == null){
+            loadMovieData();
+        }
 
         //FIX: After removing the Parent activity definitions from Manifest,
         // add this line to show an up arrow on the toolbar
@@ -213,4 +218,29 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         ReviewsActivity.mErrorMessage.setVisibility(View.VISIBLE);
     }
 
+    //FIX: prevent to execute the asyncTask on rotation
+    //save the list in a bundle and retrieve it only if the bundle is null else loadMovieData
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        listState = layoutManager.onSaveInstanceState();
+        state.putParcelable(LIST_STATE_KEY, listState);
+    }
+
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+        // Retrieve list state and list/item positions
+        if(state != null) {
+            listState = state.getParcelable(LIST_STATE_KEY);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     private static int viewHolderCount;
     private ArrayList<HashMap<String, String>> mTrailersData;
     private HashMap<String, String> currentData;
+    public final static String LIST_STATE_KEY = "recycler_list_state";
+    Parcelable listState;
 
     /**
      * The interface that receives onClick messages.
