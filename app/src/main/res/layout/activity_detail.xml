@@ -11,11 +11,7 @@
 
         <TextView
             android:id="@+id/mv_display_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            style="@style/CategoryStyle"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,9 +19,7 @@
 
         <TextView
             android:id="@+id/mv_releaseDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            style="@style/ContentsStyle"
             app:layout_constraintLeft_toLeftOf="@+id/mv_display_title"
             app:layout_constraintTop_toBottomOf="@+id/mv_display_title"
             tools:text="releaseDate" />
@@ -42,10 +36,8 @@
 
         <TextView
             android:id="@+id/mv_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ContentsStyle"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/ratingBar"
             app:layout_constraintTop_toBottomOf="@+id/mv_releaseDate"
             tools:text="Rating" />
@@ -62,9 +54,7 @@
 
         <Button
             android:id="@+id/action_trailers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            style="@style/ContentsStyle"
             android:text="@string/button_trailers"
             app:layout_constraintLeft_toLeftOf="@+id/mv_releaseDate"
             app:layout_constraintTop_toBottomOf="@+id/mv_image" />

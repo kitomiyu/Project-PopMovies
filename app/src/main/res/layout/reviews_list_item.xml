@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/author"
+            style="@style/CategoryStyle"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Author Name:" />
+
+        <TextView
+            android:id="@+id/recyclerview_reivew_authorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintStart_toEndOf="@+id/author"
+            app:layout_constraintTop_toTopOf="@+id/author"
+            tools:text="Author Name" />
 
-            <TextView
-                style="@style/CategoryStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Author Name" />
+        <TextView
+            android:id="@+id/recyclerview_reivew_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/author"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview_reivew_authorName"
+            app:layout_constraintWidth_default="wrap"
+            tools:text="review_contents" />
 
-            <TextView
-                android:id="@+id/recyclerview_reivew_authorName"
-                style="@style/ContentsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Author Name" />
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="#dadada"
+            app:layout_constraintStart_toStartOf="@+id/author"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview_reivew_content" />
 
-        <include layout="@layout/content_scrolling_review"/>
+    </android.support.constraint.ConstraintLayout>
 
-    </LinearLayout>
 
-    <!--This View serves as a visual divider between list items-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#dadada" />
 
-</LinearLayout>
+</ScrollView>
