@@ -1,8 +1,6 @@
 package com.example.android.popmovies;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +23,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
     private static int viewHolderCount;
     private ArrayList<HashMap<String, String>> mTrailersData;
     private HashMap<String, String> currentData;
-    public final static String LIST_STATE_KEY = "recycler_list_state";
-    Parcelable listState;
 
     /**
      * The interface that receives onClick messages.
@@ -71,8 +67,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
         NumberViewHolder viewHolder = new NumberViewHolder(view);
 
         viewHolderCount++;
-        Log.d(TAG, "onCreateViewHolder: number of ViewHolders created: "
-                + viewHolderCount);
+//        Log.d(TAG, "onCreateViewHolder: number of ViewHolders created: "
+//                + viewHolderCount);
         return viewHolder;
     }
 
@@ -88,8 +84,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Number
      */
     @Override
     public void onBindViewHolder(NumberViewHolder holder, int position) {
-        Log.v(TAG, "onBindViewHOlder is called");
-
         currentData = mTrailersData.get(position);
         //FIX: Change key from trailer to "name"
         String trailerName = currentData.get("name");

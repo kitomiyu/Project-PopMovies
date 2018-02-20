@@ -53,13 +53,15 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
         layoutManager = new LinearLayoutManager(this);
         mTrailersList.setLayoutManager(layoutManager);
-
         mTrailersList.setHasFixedSize(true);
-
         mAdapter = new TrailersAdapter(this);
         mTrailersList.setAdapter(mAdapter);
 
-        if (savedInstanceState == null){
+        if (savedInstanceState != null){
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            layoutManager.onRestoreInstanceState(listState);
+
+        }else{
             loadMovieData();
         }
 
@@ -227,20 +229,4 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         state.putParcelable(LIST_STATE_KEY, listState);
     }
 
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-        // Retrieve list state and list/item positions
-        if(state != null) {
-            listState = state.getParcelable(LIST_STATE_KEY);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (listState != null) {
-            layoutManager.onRestoreInstanceState(listState);
-
-        }
-    }
 }
