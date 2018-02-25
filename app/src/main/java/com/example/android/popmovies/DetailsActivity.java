@@ -25,13 +25,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import timber.log.Timber;
+
 /**
  * Created by toda on 2017/10/11.
  */
 
 public class DetailsActivity extends AppCompatActivity {
-
-    private static final String TAG = DetailsActivity.class.getSimpleName();
 
     // Set variables
     private Context mContext;
@@ -115,7 +115,7 @@ public class DetailsActivity extends AppCompatActivity {
         mMovieRating.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.v(TAG, event.toString());
+                Timber.v(event.toString());
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     // Open new activity to show movie review
                     Intent intent = new Intent(DetailsActivity.this, ReviewsActivity.class);
@@ -172,7 +172,7 @@ public class DetailsActivity extends AppCompatActivity {
         // Insert the content values via a ContentResolver
         Uri uri = getContentResolver().insert(FavoriteMovieContract.MovieData.CONTENT_URI, cv);
         // Display the URI that's returned with a Toast
-        if(uri != null) {
+        if (uri != null) {
             Toast.makeText(getBaseContext(), R.string.save_mv_successfully, Toast.LENGTH_LONG).show();
         }
     }

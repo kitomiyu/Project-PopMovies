@@ -17,8 +17,6 @@ import java.util.HashMap;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberViewHolder> {
 
-    private static final String TAG = ReviewsAdapter.class.getSimpleName();
-
     final private ReviewsAdapter.ListItemClickListener mOnClickListener;
     private ArrayList<HashMap<String, String>> mReviewsData;
     private HashMap<String, String> currentData;
@@ -80,8 +78,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
      */
     @Override
     public void onBindViewHolder(ReviewsAdapter.NumberViewHolder holder, int position) {
-        Log.v(TAG, "onBindViewHOlder is called");
-
         currentData = mReviewsData.get(position);
         //FIX: Change key from trailer to "name"
         String authorName = currentData.get("author");
@@ -135,7 +131,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.NumberVi
     }
 
     public void setReviews(ArrayList<HashMap<String, String>> mReviewData) {
-        Log.v(TAG, mReviewData.toString());
         this.mReviewsData = mReviewData;
         notifyDataSetChanged();
     }

@@ -21,13 +21,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import timber.log.Timber;
+
 /**
  * Created by toda on 2017/12/18.
  */
 
 public class TrailersActivity extends AppCompatActivity implements TrailersAdapter.ListItemClickListener {
-
-    private static final String TAG = TrailersActivity.class.getSimpleName();
 
     private static TrailersAdapter mAdapter;
     private RecyclerView mTrailersList;
@@ -57,13 +57,7 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         mAdapter = new TrailersAdapter(this);
         mTrailersList.setAdapter(mAdapter);
 
-        if (savedInstanceState != null){
-            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-            layoutManager.onRestoreInstanceState(listState);
-
-        }else{
-            loadMovieData();
-        }
+        loadMovieData();
 
         //FIX: After removing the Parent activity definitions from Manifest,
         // add this line to show an up arrow on the toolbar
@@ -87,7 +81,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
     //Allow users to view and play trailers in a web browser.
     @Override
     public void onListItemClick(String TrailersUrl) {
-        Log.v(TAG, TrailersUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(TrailersUrl));
         startActivity(intent);
@@ -131,14 +124,14 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                 String jsonResponse = NetworkUtils
                         .getResponseFromHttpUrl(requestUrl);
 
-                Log.v(TAG, "jsonResponse: " + jsonResponse);
+                Timber.v("jsonResponse: " + jsonResponse);
 
                 //Find items in "Result"
                 JSONObject getMovieInfo = new JSONObject(jsonResponse);
 //                Log.v(TAG, getMovieInfo.getString("page"));
                 JSONArray resultDetail = getMovieInfo.getJSONArray("results");
 
-                Log.v(TAG, "JSON Result: " + resultDetail.toString());
+                Timber.v("JSON Result: " + resultDetail.toString());
 
                 if (sortOrder.equals("videos")) {
 
@@ -162,7 +155,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
                         // adding contact to movieInfo list
                         trailersInfo.add(movieInfo);
-                        Log.v(TAG, trailersInfo.toString());
                     }
                 } else if (sortOrder.equals("reviews")) {
 
@@ -191,7 +183,6 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                 }
                 return trailersInfo;
             } catch (Exception e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
                 e.printStackTrace();
                 return null;
             }
@@ -204,13 +195,13 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
 
             if (hashMaps.isEmpty() == true) {
                 showErrorMessage();
-            } else{
+            } else {
                 if (sortOrder.equals("videos")) {
                     mAdapter.setTrailersData(hashMaps);
                 } else if (sortOrder.equals("reviews")) {
 //                    [FIX] Refer the mReviewAdapter in ReviewsActiity
                     ReviewsActivity.mReviewAdapter.setReviews(hashMaps);
-            }
+                }
             }
         }
     }
@@ -219,14 +210,4 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         /* Then, show the error */
         ReviewsActivity.mErrorMessage.setVisibility(View.VISIBLE);
     }
-
-    //FIX: prevent to execute the asyncTask on rotation
-    //save the list in a bundle and retrieve it only if the bundle is null else loadMovieData
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        listState = layoutManager.onSaveInstanceState();
-        state.putParcelable(LIST_STATE_KEY, listState);
-    }
-
 }

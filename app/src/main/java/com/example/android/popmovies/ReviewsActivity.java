@@ -20,8 +20,6 @@ import java.util.HashMap;
 
 public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter.ListItemClickListener{
 
-    private static final String TAG = ReviewsActivity.class.getSimpleName();
-
     static ReviewsAdapter mReviewAdapter;
     private RecyclerView mReviewsList;
     private String mId;
@@ -37,7 +35,6 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
 
         if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
             mId = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
-            Log.v(TAG, "Get string Extra in TrailersActivity: " + mId);
         }
 
         mReviewsList = findViewById(R.id.recyclerview_reviews);

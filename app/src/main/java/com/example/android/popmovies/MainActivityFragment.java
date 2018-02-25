@@ -23,12 +23,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import timber.log.Timber;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MainActivityFragment extends Fragment {
-
-    private static final String TAG = MainActivityFragment.class.getSimpleName();
 
     private GridView gridView;
     private static MovieImagesAdapter imagesAdapter;
@@ -115,14 +115,13 @@ public class MainActivityFragment extends Fragment {
                 String jsonResponse = NetworkUtils
                         .getResponseFromHttpUrl(requestUrl);
 
-                Log.v(TAG, "jsonResponse: " + jsonResponse);
+                Timber.v("jsonResponse: " + jsonResponse);
 
                 //Find items in "Result"
                 JSONObject getMovieInfo = new JSONObject(jsonResponse);
                 JSONArray resultDetail = getMovieInfo.getJSONArray("results");
 
-                Log.v(TAG, "JSON Result: " + resultDetail.toString());
-
+                Timber.v("JSON Result: " + resultDetail.toString());
                 // looping through All Contacts
                 for (int i = 0; i < resultDetail.length(); i++) {
 
@@ -152,7 +151,6 @@ public class MainActivityFragment extends Fragment {
 //                Log.v(TAG, "MoviesInfo: "+ moviesInfo.toString());
                 return moviesInfo;
             } catch (Exception e) {
-                Log.e(TAG, "Json parsing error: " + e.getMessage());
                 e.printStackTrace();
                 return null;
             }
@@ -179,7 +177,7 @@ public class MainActivityFragment extends Fragment {
             moviesInfo.clear();
         }
 
-        Cursor cursor =  database.query(
+        Cursor cursor = database.query(
                 FavoriteMovieContract.MovieData.TABLE_NAME,
                 null,
                 null,
@@ -212,7 +210,6 @@ public class MainActivityFragment extends Fragment {
             moviesInfo.add(movieInfo);
             isEof = cursor.moveToNext();
         }
-        Log.v(TAG, "when FavriteSort is tapped: " + moviesInfo);
         cursor.close();
         database.close();
 

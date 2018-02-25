@@ -17,8 +17,6 @@ import java.util.HashMap;
 
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.NumberViewHolder> {
 
-    private static final String TAG = TrailersAdapter.class.getSimpleName();
-
     final private ListItemClickListener mOnClickListener;
     private static int viewHolderCount;
     private ArrayList<HashMap<String, String>> mTrailersData;

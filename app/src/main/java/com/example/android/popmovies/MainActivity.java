@@ -9,14 +9,19 @@ import android.view.MenuItem;
 
 import com.example.android.popmovies.data.FavoriteMovieDbHelper;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Timer;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+import timber.log.Timber;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set up Timper
+        Timber.plant(new Timber.DebugTree());
     }
 
     @Override
