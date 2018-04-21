@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,7 +58,13 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
         mAdapter = new TrailersAdapter(this);
         mTrailersList.setAdapter(mAdapter);
 
-        loadMovieData();
+        if (savedInstanceState != null) {
+            Timber.v("onCreate :: SavedInstanceState is called -----");
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            layoutManager.onRestoreInstanceState(listState);
+        }else {
+            loadMovieData();
+        }
 
         //FIX: After removing the Parent activity definitions from Manifest,
         // add this line to show an up arrow on the toolbar
@@ -203,6 +210,33 @@ public class TrailersActivity extends AppCompatActivity implements TrailersAdapt
                     ReviewsActivity.mReviewAdapter.setReviews(hashMaps);
                 }
             }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        Timber.v("onSavedInstanceState is called -----");
+        //Save list state
+        listState = layoutManager.onSaveInstanceState();
+        state.putParcelable(LIST_STATE_KEY, listState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Timber.v("onResume is called -----");
+        if (listState != null) {
+            layoutManager.onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Timber.v("onRestoreInstanceState is called -----");
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
         }
     }
 
