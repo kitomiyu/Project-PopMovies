@@ -167,8 +167,6 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    //FIX - Removed the AsyncTask from here and moved to TrailersActivity
-}
     // Check the existing db to get ImageUrl and save it in ArrayList<HashMap<String, String>>
     public void displayFavoriteMovie(SQLiteDatabase database) {
 
